@@ -1,7 +1,3 @@
 export default function Footer() {
-    return (
-        <footer>
-            Test
-        </footer>
-    )
-};
+  return <footer>Test</footer>;
+}
