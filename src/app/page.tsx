@@ -153,7 +153,7 @@ export default function Home() {
 
       {/* Closing call */}
       <div className='container mx-auto my-16 text-center'>
-        <h6 className='md:leading-16 text-4xl leading-10 text-white md:text-6xl'>
+        <h6 className='text-4xl leading-10 text-white md:text-6xl md:leading-16'>
           Bring your vision to life <br /> and change visual culture
         </h6>
         <button className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700'>
