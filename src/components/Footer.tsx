@@ -5,7 +5,7 @@ import { FaTwitter, FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
 
 export function Footer() {
   return (
-    <footer className='p-4 text-center text-white md:text-left'>
+    <footer className='mt-16 p-4 text-center text-white md:text-left'>
       <div className='mx-auto flex flex-col md:flex-row md:justify-between'>
         <div className='mb-16'>
           <h4 className='text-lg font-bold'>hiropitch</h4>

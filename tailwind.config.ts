@@ -11,6 +11,7 @@ const config: Config = {
       fontFamily: {
         outfit: ['var(--font-outfit)'],
       },
+      lineHeight: { '12': '3.4rem', '16': '4.2rem' },
     },
   },
   plugins: [],
