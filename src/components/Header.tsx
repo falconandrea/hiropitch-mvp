@@ -10,7 +10,7 @@ export function Header() {
   };
 
   return (
-    <header className='flex items-center justify-between p-4'>
+    <header className='flex items-center justify-between p-8'>
       <h1 className='text-3xl font-bold text-white'>hiropitch</h1>
       <div className='hidden space-x-4 md:flex'>
         <a href='#about' className='text-white'>
@@ -26,7 +26,7 @@ export function Header() {
           Login
         </button>
       </div>
-      <button className='md:hidden' onClick={toggleMenu}>
+      <button className='text-white md:hidden' onClick={toggleMenu}>
         <svg
           className='h-6 w-6'
           fill='none'
