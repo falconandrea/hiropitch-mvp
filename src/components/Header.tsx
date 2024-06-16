@@ -27,7 +27,7 @@ export function Header() {
         <a href='#resources' className='text-white'>
           Resources
         </a>
-        <ClerkButton className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700' />
+        <ClerkButton className='rounded bg-blue-500 font-bold text-white hover:bg-blue-700' />
       </div>
       <button className='text-white md:hidden' onClick={toggleMenu}>
         <svg

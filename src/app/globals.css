@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Gradiant for website background */
 html {
   background: -webkit-linear-gradient(
       top,
@@ -27,4 +28,12 @@ html {
       rgba(255, 95, 31, 1) 100%
     )
     no-repeat;
+}
+
+/* Roles for Clerk button */
+.clerk-sign-button button {
+  padding: 1rem 2rem;
+}
+header .clerk-sign-button button {
+  padding: 0.5rem 1rem;
 }
