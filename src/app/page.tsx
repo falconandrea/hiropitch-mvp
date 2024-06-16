@@ -8,6 +8,7 @@ import MasterpieceImage from '@/assets/homepage/masterpiece.jpeg';
 import VisionImage from '@/assets/homepage/vision.jpeg';
 import ElevateImage from '@/assets/homepage/elevate.jpeg';
 import CollaborateImage from '@/assets/homepage/collaborate.jpeg';
+import ClerkButton from '@/components/ClerkButton';
 
 export default function Home() {
   return (
@@ -22,9 +23,9 @@ export default function Home() {
             <br />
             MAKE IT HAPPEN.
           </h2>
-          <button className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700'>
-            Sign up
-          </button>
+          <div className='flex justify-center md:justify-normal'>
+            <ClerkButton className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700' />
+          </div>
         </div>
         <div className='mt-4 hidden md:mt-0 md:block md:w-1/2'>
           <Image src={HeroImage} alt='Hero image' width={400} height={400} />
@@ -156,9 +157,9 @@ export default function Home() {
         <h6 className='text-4xl leading-10 text-white md:text-6xl md:leading-16'>
           Bring your vision to life <br /> and change visual culture
         </h6>
-        <button className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700'>
-          Sign up
-        </button>
+        <div className='mx-auto flex justify-center'>
+          <ClerkButton className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700' />
+        </div>
       </div>
     </main>
   );

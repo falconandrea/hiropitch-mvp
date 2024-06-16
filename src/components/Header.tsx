@@ -1,6 +1,9 @@
 'use client';
 
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 import React, { useState } from 'react';
+import ClerkButton from './ClerkButton';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,8 +14,10 @@ export function Header() {
 
   return (
     <header className='flex items-center justify-between p-8'>
-      <h1 className='text-3xl font-bold text-white'>hiropitch</h1>
-      <div className='hidden space-x-4 md:flex'>
+      <h1 className='text-3xl font-bold text-white'>
+        <Link href='/'>hiropitch</Link>
+      </h1>
+      <div className='hidden items-center space-x-4 md:flex'>
         <a href='#about' className='text-white'>
           About
         </a>
@@ -22,9 +27,7 @@ export function Header() {
         <a href='#resources' className='text-white'>
           Resources
         </a>
-        <button className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'>
-          Login
-        </button>
+        <ClerkButton className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700' />
       </div>
       <button className='text-white md:hidden' onClick={toggleMenu}>
         <svg
@@ -52,9 +55,7 @@ export function Header() {
           <a href='#resources' className='hover:text-gray-700'>
             Resources
           </a>
-          <button className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'>
-            Login
-          </button>
+          <ClerkButton className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700' />
         </div>
       )}
     </header>
