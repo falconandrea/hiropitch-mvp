@@ -1,9 +1,9 @@
 import mongoose, { Mongoose } from 'mongoose';
 
-const MONGODB_URL = process.env.MONGODB_URL;
-if (!MONGODB_URL) {
+const MONGO_DB_URI = process.env.MONGO_DB_URI;
+if (!MONGO_DB_URI) {
   throw new Error(
-    'Please define the MONGODB_URL environment variable inside .env.local'
+    'Please define the MONGO_DB_URI environment variable inside .env.local'
   );
 }
 
@@ -24,7 +24,7 @@ export const connect = async () => {
   }
   cached.promise =
     cached.promise ||
-    mongoose.connect(MONGODB_URL, {
+    mongoose.connect(MONGO_DB_URI, {
       dbName: 'hiropitch',
       bufferCommands: false,
       connectTimeoutMS: 30000,
