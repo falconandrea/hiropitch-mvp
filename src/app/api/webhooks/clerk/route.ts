@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       photo: image_url,
       firstName: first_name,
       lastName: last_name,
-      username: username!,
+      username: username ?? email_addresses[0].email_address,
     };
 
     console.log('new user', user);
