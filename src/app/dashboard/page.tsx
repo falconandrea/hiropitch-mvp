@@ -3,13 +3,13 @@ import { auth } from '@clerk/nextjs/server';
 
 export default async function Dashboard() {
   const { userId } = auth();
-  console.log(userId);
+  const { user } = useUser();
 
   if (!userId) {
     return <p>You are not signed in</p>;
   }
 
-  const { user } = useUser();
+  console.log(userId);
   console.log(user);
 
   return <div>Dashboard</div>;
