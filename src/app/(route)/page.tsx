@@ -14,7 +14,7 @@ import { useUser } from '@clerk/clerk-react';
 import Link from 'next/link';
 
 export default function Home() {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn } = useUser();
 
   return (
     <main>
