@@ -25,9 +25,9 @@ export default function Layout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body className={outfit.className}>
+        <body className={`${outfit.className} flex`}>
           <Sidebar />
-          {children}
+          <div className='flex-1 px-8 py-16'>{children}</div>
         </body>
       </html>
     </ClerkProvider>
