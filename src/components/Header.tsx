@@ -1,12 +1,14 @@
 'use client';
 
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import ClerkButton from './ClerkButton';
+import { useUser } from '@clerk/clerk-react';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { isSignedIn } = useUser();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -27,7 +29,9 @@ export function Header() {
         <a href='#resources' className='text-white'>
           Resources
         </a>
-        <ClerkButton className='rounded bg-blue-500 font-bold text-white hover:bg-blue-700' />
+        <ClerkButton
+          className={`${isSignedIn ? '' : 'rounded bg-blue-500 font-bold text-white hover:bg-blue-700'}`}
+        />
       </div>
       <button className='text-white md:hidden' onClick={toggleMenu}>
         <svg

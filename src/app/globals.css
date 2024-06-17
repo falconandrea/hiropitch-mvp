@@ -37,3 +37,6 @@ html {
 header .clerk-sign-button button {
   padding: 0.5rem 1rem;
 }
+header .cl-userButton-root button {
+  padding: 0;
+}

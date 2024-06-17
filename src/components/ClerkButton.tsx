@@ -6,7 +6,7 @@ interface ClerkButtonProps {
 
 export default function ClerkButton({ className }: ClerkButtonProps) {
   return (
-    <div className={`${className} clerk-sign-button`}>
+    <div className={`clerk-sign-button ${className}`}>
       <SignedOut>
         <SignInButton />
       </SignedOut>

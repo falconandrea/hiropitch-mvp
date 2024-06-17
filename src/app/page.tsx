@@ -10,7 +10,12 @@ import ElevateImage from '@/assets/homepage/elevate.jpeg';
 import CollaborateImage from '@/assets/homepage/collaborate.jpeg';
 import ClerkButton from '@/components/ClerkButton';
 
+import { useUser } from '@clerk/clerk-react';
+import Link from 'next/link';
+
 export default function Home() {
+  const { isSignedIn, user, isLoaded } = useUser();
+
   return (
     <main>
       {/* Hero section */}
@@ -24,7 +29,16 @@ export default function Home() {
             MAKE IT HAPPEN.
           </h2>
           <div className='flex justify-center md:justify-normal'>
-            <ClerkButton className='mt-8 rounded bg-blue-500 font-bold text-white hover:bg-blue-700' />
+            {isSignedIn ? (
+              <Link
+                href='/dashboard'
+                className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700'
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <ClerkButton className='mt-8 rounded bg-blue-500 font-bold text-white hover:bg-blue-700' />
+            )}
           </div>
         </div>
         <div className='mt-4 hidden md:mt-0 md:block md:w-1/2'>
@@ -158,7 +172,16 @@ export default function Home() {
           Bring your vision to life <br /> and change visual culture
         </h6>
         <div className='mx-auto flex justify-center'>
-          <ClerkButton className='mt-8 rounded bg-blue-500 font-bold text-white hover:bg-blue-700' />
+          {isSignedIn ? (
+            <Link
+              href='/dashboard'
+              className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700'
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <ClerkButton className='mt-8 rounded bg-blue-500 font-bold text-white hover:bg-blue-700' />
+          )}
         </div>
       </div>
     </main>
