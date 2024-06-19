@@ -3,7 +3,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import './globals.css';
-import { Sidebar } from '@/components/dashboard/Sidebar';
+import { Sidebar } from '@/components/admin/Sidebar';
 
 // Vedere quali varianti usaremo
 const outfit = Outfit({
@@ -13,8 +13,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'Dashboard',
+  title: 'Admin area',
+  description: 'Admin area',
 };
 
 export default function Layout({
