@@ -31,7 +31,7 @@ export default function Home() {
           <div className='flex justify-center md:justify-normal'>
             {isSignedIn ? (
               <Link
-                href='/admin'
+                href='/admin/dashboard'
                 className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700'
               >
                 Dashboard
@@ -174,7 +174,7 @@ export default function Home() {
         <div className='mx-auto flex justify-center'>
           {isSignedIn ? (
             <Link
-              href='/admin'
+              href='/admin/dashboard'
               className='mt-8 rounded bg-blue-500 px-8 py-4 font-bold text-white hover:bg-blue-700'
             >
               Dashboard
