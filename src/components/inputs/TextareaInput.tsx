@@ -2,6 +2,7 @@ export interface TextareaInputProps {
   label: string;
   placeholder: string;
   name: string;
+  required: boolean;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
@@ -10,6 +11,7 @@ export default function TextareaInput({
   label,
   placeholder,
   name,
+  required = false,
   value,
   onChange,
 }: TextareaInputProps) {
@@ -24,6 +26,7 @@ export default function TextareaInput({
         </label>
         <textarea
           id={name}
+          required={required}
           name={name}
           value={value}
           rows={5}

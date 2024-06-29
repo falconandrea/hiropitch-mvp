@@ -2,6 +2,7 @@ export interface TextInputProps {
   label: string;
   placeholder: string;
   name: string;
+  required?: boolean;
   type?: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,6 +12,7 @@ export default function TextInput({
   label,
   placeholder,
   name,
+  required = false,
   type = 'text',
   value,
   onChange,
@@ -27,6 +29,7 @@ export default function TextInput({
         <input
           type={type}
           id={name}
+          required={required}
           name={name}
           value={value}
           onChange={onChange}

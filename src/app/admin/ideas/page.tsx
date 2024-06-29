@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 
 import { IPContractTypes, IPCategories } from '@/lib/constants';
 import MultipleTexts from '@/components/inputs/MultipleTexts';
-
-type User = { id: string; name: string };
+import FileUploader from '@/components/FileUploader';
+import Loading from '../loading';
 
 export default function Ideas() {
   const [formData, setFormData] = useState<{
@@ -20,6 +20,8 @@ export default function Ideas() {
     authors: { value: string; label: string }[];
     referenceLink: string;
     referenceLinks: string[];
+    file: File | null;
+    fileStructure: any;
   }>({
     title: '',
     description: '',
@@ -28,6 +30,8 @@ export default function Ideas() {
     authors: [],
     referenceLink: '',
     referenceLinks: [],
+    file: null,
+    fileStructure: null,
   });
 
   /* For MultipleTexts */
@@ -78,6 +82,11 @@ export default function Ideas() {
     setFormData({ ...formData, authors: selectedValues });
   };
 
+  /* For upload file */
+  const handleFileUpload = (file: File | null, structure: any) => {
+    setFormData({ ...formData, file, fileStructure: structure });
+  };
+
   /* General form handling */
   const handleFormChange = (
     e: React.ChangeEvent<
@@ -88,14 +97,91 @@ export default function Ideas() {
     setFormData({ ...formData, [name]: value });
   };
 
+  /* Validation form */
+  const validateForm = () => {
+    if (
+      formData.title.trim() === '' ||
+      formData.description.trim() === '' ||
+      formData.category.trim() === '' ||
+      formData.contractType.trim() === '' ||
+      formData.authors.length === 0 ||
+      formData.referenceLinks.length === 0 ||
+      formData.file === null ||
+      formData.fileStructure === null
+    ) {
+      return false;
+    }
+    return true;
+  };
   /* Submit form */
-  const handleSubmit = (e: React.FormEvent) => {
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+
+    setShowErrorMessage(false);
+    setShowSuccessMessage(false);
+    if (!validateForm()) {
+      setShowErrorMessage(true);
+      return;
+    }
+
+    setLoading(true);
+
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('description', formData.description);
+    data.append('category', formData.category);
+    data.append('contractType', formData.contractType);
+    data.append('file', formData.file as File);
+    data.append('fileStructure', JSON.stringify(formData.fileStructure));
+    data.append('authors', JSON.stringify(formData.authors));
+    data.append('referenceLinks', JSON.stringify(formData.referenceLinks));
+
+    try {
+      const response = await fetch('/api/admin/ideas', {
+        method: 'POST',
+        body: data,
+      });
+      if (response.ok) {
+        // Success handling
+        console.log('Form submitted successfully!');
+      } else {
+        // Error handling
+        console.error('Form submission failed.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setLoading(false);
+
+      // Show success message
+      setShowSuccessMessage(true);
+
+      // Reset form
+      setFormData({
+        title: '',
+        description: '',
+        category: '',
+        contractType: '',
+        authors: [],
+        referenceLink: '',
+        referenceLinks: [],
+        file: null,
+        fileStructure: null,
+      });
+
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
+    }
   };
 
   return (
     <div className='max-w-2lg mx-auto'>
+      {loading && <Loading />}
       <h1 className='mb-2 text-center text-4xl font-bold'>IDEAS</h1>
       <h2 className='w full mb-3 text-center font-sans text-xl'>
         Your ideas are safely saved in our database. Share it to our community
@@ -108,6 +194,7 @@ export default function Ideas() {
             <TextInput
               label='IP name'
               name='title'
+              required={true}
               value={formData.title}
               onChange={handleFormChange}
               placeholder='Give a name to your idea here!'
@@ -116,6 +203,7 @@ export default function Ideas() {
             <SelectInput
               label='IP category'
               name='category'
+              required={true}
               onChange={handleFormChange}
               options={IPContractTypes.map((contractType) => ({
                 value: contractType,
@@ -127,6 +215,7 @@ export default function Ideas() {
             <SelectInput
               label='Contract Type'
               name='contractType'
+              required={true}
               onChange={handleFormChange}
               options={IPCategories.map((category) => ({
                 value: category,
@@ -138,6 +227,7 @@ export default function Ideas() {
             <TextareaInput
               label='IP description'
               name='description'
+              required={true}
               value={formData.description}
               onChange={handleFormChange}
               placeholder='Give hype to your idea here! What is it about?'
@@ -163,18 +253,33 @@ export default function Ideas() {
               selectedValues={formData.authors}
               onChange={handleMultiSelectChange}
             />
+
+            <FileUploader
+              onFileSelect={handleFileUpload}
+              name='file'
+              label='Upload ZIP file'
+            />
           </div>
         </div>
 
         {/* SUBMIT BUTTON */}
-        <div className='flex items-center justify-center'>
+        <div className='flex flex-col items-center justify-center'>
           <button
             type='submit'
+            disabled={loading}
             onClick={handleSubmit}
             className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
           >
             Submit
           </button>
+
+          {showErrorMessage && (
+            <p className='mt-4 text-red-500'>Please fill in all fields</p>
+          )}
+
+          {showSuccessMessage && (
+            <p className='mt-4 text-green-500'>Form submitted successfully!</p>
+          )}
         </div>
       </form>
     </div>
