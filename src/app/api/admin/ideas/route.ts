@@ -53,8 +53,6 @@ export async function POST(req: Request) {
       return Response.json({ message: 'Missing file' }, { status: 400 });
     }
 
-    console.log('fileStructure', fileStructure);
-
     const idea = {
       title,
       description,
@@ -69,7 +67,6 @@ export async function POST(req: Request) {
 
     // Create idea
     const newIdea = await createIdea(idea);
-    console.log('newIdea', newIdea);
 
     return Response.json({ message: 'Idea created successfully', newIdea });
   } catch (error) {
