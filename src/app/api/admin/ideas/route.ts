@@ -15,10 +15,10 @@ export async function POST(req: Request) {
     const fileStructureJSON = formData.get('fileStructure');
 
     // Format authors and referenceLinks
-    const authors = JSON.parse(authorsJSON as string)
+    const authors = JSON.parse(authorsJSON as unknown as string)
       .map((author: { value: string; label: string }) => author.value)
       .filter((author: string) => author !== '');
-    const referenceLinks = JSON.parse(referenceLinksJSON as string)
+    const referenceLinks = JSON.parse(referenceLinksJSON as unknown as string)
       .map((referenceLink: string) => referenceLink.toString())
       .filter((referenceLink: string) => referenceLink !== '');
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     const uploadedFile = formData.getAll('file')[0];
     if (uploadedFile) {
       try {
-        file = await uploadFileToSupabase(uploadedFile);
+        file = await uploadFileToSupabase(uploadedFile as File);
       } catch (error) {
         console.log('upload file', error);
       }
