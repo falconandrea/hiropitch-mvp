@@ -13,3 +13,14 @@ export async function createIdea(idea: any) {
     console.log(error);
   }
 }
+
+export async function getIdeas(filters: any, sortOptions: any, limit: number) {
+  try {
+    await connect();
+
+    const ideas = await Idea.find(filters).sort(sortOptions).limit(limit);
+    return JSON.parse(JSON.stringify(ideas));
+  } catch (error) {
+    console.log(error);
+  }
+}

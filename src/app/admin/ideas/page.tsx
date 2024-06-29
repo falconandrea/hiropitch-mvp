@@ -257,7 +257,7 @@ export default function Ideas() {
             <FileUploader
               onFileSelect={handleFileUpload}
               name='file'
-              label='Upload ZIP file'
+              label='Upload ZIP file (for now Max 2MB)'
             />
           </div>
         </div>
