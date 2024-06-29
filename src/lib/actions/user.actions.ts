@@ -13,3 +13,14 @@ export async function createUser(user: any) {
     console.log(error);
   }
 }
+
+export async function getUsers(selectedFields: any) {
+  try {
+    await connect();
+
+    const users = await User.find({}, selectedFields);
+    return JSON.parse(JSON.stringify(users));
+  } catch (error) {
+    console.log(error);
+  }
+}
