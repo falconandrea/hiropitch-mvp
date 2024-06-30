@@ -1,7 +1,15 @@
-"use client"
+'use client';
 
+import SelectInput from '@/components/inputs/SelectInput';
+import MultiSelect from '@/components/inputs/MultiSelect';
+import TextInput from '@/components/inputs/TextInput';
+import TextareaInput from '@/components/inputs/TextareaInput';
+import React, { useEffect, useState } from 'react';
 
-import React, { useState } from 'react';
+import { IPContractTypes, IPCategories } from '@/lib/constants';
+import MultipleTexts from '@/components/inputs/MultipleTexts';
+import FileUploader from '@/components/FileUploader';
+import Loading from '../loading';
 
 export default function Ideas() {
   const [formData, setFormData] = useState<{
@@ -9,194 +17,271 @@ export default function Ideas() {
     description: string;
     category: string;
     contractType: string;
-    author: string;
-    authors: string[]; 
+    authors: { value: string; label: string }[];
     referenceLink: string;
     referenceLinks: string[];
-    // Esplicitare il tipo di tutti i campi dell'oggetto 'formData' mi e' servito per inserire degli autori di tipo string, altrimenti ricevevo errore "Type 'string' is not assignable to type 'never'." 
-
+    file: File | null;
+    fileStructure: any;
   }>({
-    title: '', // Campo per l'input del titolo
-    description: '', // Campo per l'input della descrizione
-    category: 'FUMETTI', // scelta default, giusto per capire cosa trovarci dentro
-    contractType: 'PRE-ACQUISTO', // scelta default, giusto per capire cosa trovarci dentro 
-    author: '', // Campo per l'input dell'autore
-    authors: [], // Lista degli autori
-    referenceLink: '', // Campo per l'input del link
-    referenceLinks: [],  // Lista dei link 
+    title: '',
+    description: '',
+    category: '',
+    contractType: '',
+    authors: [],
+    referenceLink: '',
+    referenceLinks: [],
+    file: null,
+    fileStructure: null,
   });
 
-  // Funzione per cambiare i valori del form
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  /* For MultipleTexts */
+  const [inputValue, setInputValue] = useState('');
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+  const handleAddReferenceLink = () => {
+    if (inputValue.trim() !== '') {
+      setFormData({
+        ...formData,
+        referenceLinks: [...formData.referenceLinks, inputValue],
+      });
+      setInputValue('');
+    }
+  };
+  const handleRemoveReferenceLink = (index: number) => {
+    const updatedLinks = [...formData.referenceLinks];
+    updatedLinks.splice(index, 1);
+    setFormData({ ...formData, referenceLinks: updatedLinks });
+  };
+
+  /* For MultiSelect */
+  const [users, setUsers] = useState<{ value: string; label: string }[]>([]);
+  useEffect(() => {
+    // Fetch users from API
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/admin/users');
+        const data = await response.json();
+        const userOptions = data.map(
+          (user: { _id: string; firstName: string; lastName: string }) => ({
+            value: user._id,
+            label: `${user.firstName} ${user.lastName}`,
+          })
+        );
+        setUsers(userOptions);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+  const handleMultiSelectChange = (
+    selectedValues: { value: string; label: string }[]
+  ) => {
+    setFormData({ ...formData, authors: selectedValues });
+  };
+
+  /* For upload file */
+  const handleFileUpload = (file: File | null, structure: any) => {
+    setFormData({ ...formData, file, fileStructure: structure });
+  };
+
+  /* General form handling */
+  const handleFormChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Funzione per aggiungere un autore/autori
-  const handleAddAuthor = (e: React.FormEvent) => {
+  /* Validation form */
+  const validateForm = () => {
+    if (
+      formData.title.trim() === '' ||
+      formData.description.trim() === '' ||
+      formData.category.trim() === '' ||
+      formData.contractType.trim() === '' ||
+      formData.authors.length === 0 ||
+      formData.referenceLinks.length === 0 ||
+      formData.file === null ||
+      formData.fileStructure === null
+    ) {
+      return false;
+    }
+    return true;
+  };
+  /* Submit form */
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.author.trim() !== '') {
-      setFormData({
-        ...formData,
-        authors: [ ...formData.authors,  formData.author],
-        author: '',
+
+    setShowErrorMessage(false);
+    setShowSuccessMessage(false);
+    if (!validateForm()) {
+      setShowErrorMessage(true);
+      return;
+    }
+
+    setLoading(true);
+
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('description', formData.description);
+    data.append('category', formData.category);
+    data.append('contractType', formData.contractType);
+    data.append('file', formData.file as File);
+    data.append('fileStructure', JSON.stringify(formData.fileStructure));
+    data.append('authors', JSON.stringify(formData.authors));
+    data.append('referenceLinks', JSON.stringify(formData.referenceLinks));
+
+    try {
+      const response = await fetch('/api/admin/ideas', {
+        method: 'POST',
+        body: data,
       });
+      if (response.ok) {
+        // Success handling
+        console.log('Form submitted successfully!');
+      } else {
+        // Error handling
+        console.error('Form submission failed.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setLoading(false);
+
+      // Show success message
+      setShowSuccessMessage(true);
+
+      // Reset form
+      setFormData({
+        title: '',
+        description: '',
+        category: '',
+        contractType: '',
+        authors: [],
+        referenceLink: '',
+        referenceLinks: [],
+        file: null,
+        fileStructure: null,
+      });
+
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
     }
   };
 
-    //Funzione per inviare il form
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission logic
-    console.log('Form data submitted:', formData);
-  };
-
-
   return (
-
-    /* FORM CREATION */
-
-    /* IP NAME */
-    <div className="max-w-lg mx-auto">
-      <h1 className="text-5xl font-bold mb-5 text-center">IDEAS</h1>
-      <h2 className="text-2xl font-sans mb-3 text-center w full">Your ideas are safely saved in our database. Share it to our community and find your crewmate now!</h2>
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-            IP NAME
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder="Give a name to your idea here!" // Placeholder per guidare l'utente 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-
-        {/* IP CATEGORYTYPE */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
-            IP CATEGORY TYPE
-          </label>
-          <select
-            id="category"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          >
-            <option value="FUMETTI">FUMETTI</option>
-            <option value="TRATTAMENTO">TRATTAMENTO</option>
-            <option value="LIBRI">LIBRI</option>
-            <option value="SCENEGGIATURA">SCENEGGIATURA</option>
-            <option value="SINOSSI">SINOSSI</option>
-            <option value="SCRIPT TELEVISIVO">SCRIPT TELEVISIVO</option>
-            <option value="SOGGETTO">SOGGETTO</option>
-            <option value="VIDEOGAME STORY">VIDEOGAME STORY</option>
-            <option value="VIDEOGAME MVP">VIDEOGAME MVP</option>
-          </select>
-        </div>
-
-        {/* IP DESCRIPTION */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
-            IP DESCRIPTION
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Give hype to your idea here! What is it about?" // Placeholder per guidare l'utente 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          ></textarea>
-        </div>
-
-        {/* IP REFERENCE LINKS */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="referenceLinks">
-            IP REFERENCE LINKS
-          </label>
-          <input
-            type="text"
-            id="referenceLinks"
-            name="referenceLinks"
-            value={formData.referenceLinks}
-            onChange={handleChange}
-            placeholder="Enter your reference links here!"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-
-        {/* CONTRACT TYPE */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="contractType">
-            CONTRCT   TYPE
-          </label>
-          <select
-            id="contractType"
-            name="contractType"
-            value={formData.contractType}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          >
-            <option value="PRE-ACQUISTO">PRE-ACQUISTO</option>
-            <option value="OPZIONE">OPZIONE</option>
-            <option value="APPALTO-PRODUZIONE-COMMISSIONE">APPALTO-PRODUZIONE-COMMISSIONE</option>
-            <option value="ACQUISTO TOTALE DEI DIRITTI PATRIMONIALI">ACQUISTO TOTALE DEI DIRITTI PATRIMONIALI</option>
-            <option value="DISTRIBUZIONE">DISTRIBUZIONE</option>
-            <option value="ACQUISTO parziale DEI DIRITTI PATRIMONIALI">ACQUISTO parziale DEI DIRITTI PATRIMONIALI</option>
-            <option value="COPRODUZIONE">COPRODUZIONE</option>
-            <option value="LICENZA">LICENZA</option>
-          </select>
-        </div>
-
-
-        {/* IP AUTHOR */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
-            ID AUTHOR (discutere su come implementarlo)
-          </label>
-          <div className="flex">
-            <input
-              type="text"
-              id="author"
-              name="author"
-              value={formData.author}
-              onChange={handleChange}
-              placeholder="It could be more than one author" // Placeholder per guidare l'utente
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    <div className='max-w-2lg mx-auto'>
+      {loading && <Loading />}
+      <h1 className='mb-2 text-center text-4xl font-bold'>IDEAS</h1>
+      <h2 className='w full mb-3 text-center font-sans text-xl'>
+        Your ideas are safely saved in our database. Share it to our community
+        and find your crewmate now!
+      </h2>
+      <form className='mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md'>
+        <div className='flex flex-col xl:flex-row xl:gap-x-4'>
+          {/* Column Left */}
+          <div className='w-full xl:w-1/2'>
+            <TextInput
+              label='IP name'
+              name='title'
+              required={true}
+              value={formData.title}
+              onChange={handleFormChange}
+              placeholder='Give a name to your idea here!'
             />
-            <button
-              onClick={handleAddAuthor}
-              className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Add
-            </button>
-          </div>
-          <ul className="mt-4">
-            {formData.authors.map((author, index) => (
-              <li key={index} className="bg-gray-200 p-2 rounded mt-2">{author}</li>
-            ))}
-          </ul>
-        </div>
 
+            <SelectInput
+              label='IP category'
+              name='category'
+              required={true}
+              onChange={handleFormChange}
+              options={IPContractTypes.map((contractType) => ({
+                value: contractType,
+                label: contractType,
+              }))}
+              value={formData.category}
+            />
+
+            <SelectInput
+              label='Contract Type'
+              name='contractType'
+              required={true}
+              onChange={handleFormChange}
+              options={IPCategories.map((category) => ({
+                value: category,
+                label: category,
+              }))}
+              value={formData.contractType}
+            />
+
+            <TextareaInput
+              label='IP description'
+              name='description'
+              required={true}
+              value={formData.description}
+              onChange={handleFormChange}
+              placeholder='Give hype to your idea here! What is it about?'
+            />
+          </div>
+
+          {/* Column Right */}
+          <div className='w-full xl:w-1/2'>
+            <MultipleTexts
+              label='IP reference links'
+              name='referenceLink'
+              onChange={handleChange}
+              inputValue={inputValue}
+              values={formData.referenceLinks}
+              onAddValue={handleAddReferenceLink}
+              onRemoveValue={handleRemoveReferenceLink}
+              placeholder='Enter your reference links here!'
+            />
+
+            <MultiSelect
+              label='Authors'
+              options={users}
+              selectedValues={formData.authors}
+              onChange={handleMultiSelectChange}
+            />
+
+            <FileUploader
+              onFileSelect={handleFileUpload}
+              name='file'
+              label='Upload ZIP file (for now Max 2MB)'
+            />
+          </div>
+        </div>
 
         {/* SUBMIT BUTTON */}
-        <div className="flex items-center justify-between">
+        <div className='flex flex-col items-center justify-center'>
           <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type='submit'
+            disabled={loading}
+            onClick={handleSubmit}
+            className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
           >
             Submit
           </button>
+
+          {showErrorMessage && (
+            <p className='mt-4 text-red-500'>Please fill in all fields</p>
+          )}
+
+          {showSuccessMessage && (
+            <p className='mt-4 text-green-500'>Form submitted successfully!</p>
+          )}
         </div>
       </form>
     </div>
   );
 }
-
-
