@@ -1,9 +1,17 @@
 import { uploadFileToSupabase } from '@/lib/supabaseUpload';
 import { createIdea } from '@/lib/actions/idea.actions';
+import { getAuth } from '@clerk/nextjs/server';
+import { NextRequest } from 'next/server';
+import { getUserByClerkID } from '@/lib/actions/user.actions';
 
-// TODO: protect this route
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
     const formData = await req.formData();
 
     const title = formData.get('title');
@@ -40,12 +48,16 @@ export async function POST(req: Request) {
       );
     }
 
+    // Get User DB Id searching by clerkID
+    const currentUser = await getUserByClerkID(userId);
+    const { _id } = currentUser;
+
     // Upload file
     let file = null;
     const uploadedFile = formData.getAll('file')[0];
     if (uploadedFile) {
       try {
-        file = await uploadFileToSupabase(uploadedFile as File);
+        file = await uploadFileToSupabase(uploadedFile as File, _id);
       } catch (error) {
         console.log('upload file', error);
       }
@@ -60,10 +72,12 @@ export async function POST(req: Request) {
       contractType,
       authors,
       referenceLinks,
-      filePath: file?.filePath,
-      fileUrl: file?.publicUrl,
+      file,
       fileStructure,
+      creatorId: _id,
     };
+
+    console.log('Idea', idea);
 
     // Create idea
     const newIdea = await createIdea(idea);

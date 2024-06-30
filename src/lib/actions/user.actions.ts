@@ -24,3 +24,14 @@ export async function getUsers(selectedFields: any) {
     console.log(error);
   }
 }
+
+export async function getUserByClerkID(clerkID: string) {
+  try {
+    await connect();
+
+    const user = await User.findOne({ clerkId: clerkID });
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    console.log(error);
+  }
+}

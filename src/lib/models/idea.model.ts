@@ -17,6 +17,11 @@ const IdeaSchema = new Schema({
     type: String,
     required: true,
   },
+  creatorId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   authors: {
     type: [Schema.Types.ObjectId],
     ref: 'User',
@@ -26,12 +31,8 @@ const IdeaSchema = new Schema({
     type: [String],
     required: true,
   },
-  filePath: {
-    type: String,
-    required: true,
-  },
-  fileUrl: {
-    type: String,
+  file: {
+    type: Object,
     required: true,
   },
   fileStructure: {
