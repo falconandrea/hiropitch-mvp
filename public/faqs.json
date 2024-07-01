@@ -1,47 +1,47 @@
 [
-    {
-        "idx": 1,
-        "question":"What is Next.js?",
-        "answer":"Next.js is an open-source, lightweight React.js framework that facilitates developers to build static and server-side rendering web applications."
-    },
-    {
-        "idx": 2,
-        "question":"Which types of websites most popularly use Next.js?",
-        "answer":"• Static Websites \n • Desktop Websites\n • SEO Friendly Websites\n • Server Rendered Apps\n • Progressive Web Apps (PWA) etc."
-    },
-    {
-        "idx": 3,
-        "question":"Are Create-React-App and Next.js used for the same thing?",
-        "answer":"The Create-React-App is basically React with an integrated build system. It acts like a good boilerplate, so we don't need to set up Webpack, Babel, and other dependent packages to run React. Other than that, if you require extra functionalities such as routing, server-side rendering, you just need to add packages on top of Create-React-App. On the other hand, The Next.js is an open-source, lightweight full-stack React framework that comes bundled with an efficient build system, server-side rendering, routing, API routing, and many other awesome features that make the production environment easy."
-    },
-    {
-        "idx": 4,
-        "question":"How can you configure the build-id in Next.js",
-        "answer":"To configure the build-id in Next.js, we must configure a static ID between our builds. So, we have to provide the 'generateBuildId' function with the following configuration."
-    },
-    {
-        "idx": 5,
-        "question":"What is AMP in Next.js?",
-        "answer":"The AMP-First Pages are served to the primary traffic of the website as well as traffic generated from the search engine."
-    },
-    {
-        "idx": 6,
-        "question":"Which types of websites most popularly use Next.js?",
-        "answer":"• Static Websites \n • Desktop Websites\n • SEO Friendly Websites\n • Server Rendered Apps\n • Progressive Web Apps (PWA) etc."
-    },
-    {
-        "idx": 7,
-        "question":"Are Create-React-App and Next.js used for the same thing?",
-        "answer":"The Create-React-App is basically React with an integrated build system. It acts like a good boilerplate, so we don't need to set up Webpack, Babel, and other dependent packages to run React. Other than that, if you require extra functionalities such as routing, server-side rendering, you just need to add packages on top of Create-React-App. On the other hand, The Next.js is an open-source, lightweight full-stack React framework that comes bundled with an efficient build system, server-side rendering, routing, API routing, and many other awesome features that make the production environment easy."
-    },
-    {
-        "idx": 8,
-        "question":"How can you configure the build-id in Next.js",
-        "answer":"To configure the build-id in Next.js, we must configure a static ID between our builds. So, we have to provide the 'generateBuildId' function with the following configuration."
-    },
-    {
-        "idx": 9,
-        "question":"What is AMP in Next.js?",
-        "answer":"The AMP-First Pages are served to the primary traffic of the website as well as traffic generated from the search engine."
-    }
+  {
+    "idx": 1,
+    "question": "What is Hiropitch?",
+    "answer": "Hiropitch is a decentralized platform designed to facilitate the discovery, evaluation, and exchange of intellectual property (IP) in the media industry, such as films, TV series, TV shows, and video games. It uses tokens and community voting (DAO) to foster collaboration among industry professionals for creating visual culture."
+  },
+  {
+    "idx": 2,
+    "question": "What are the main features of the Hiropitch platform?",
+    "answer": "The key features include a marketplace for buying, selling, and exchanging tokenized IPs, a DAO voting system to influence key decisions, the creation of NFTs for IPs, an intuitive user interface, and dedicated sections for authors, producers, and investors."
+  },
+  {
+    "idx": 3,
+    "question": "What is the role of the ERC20 'YUME' token?",
+    "answer": "The ERC20 'YUME' token is used for active participation within the DAO. It allows holders to vote on projects and community decisions. The token is compatible with the Ethereum ecosystem, ensuring ease of access and exchange among users."
+  },
+  {
+    "idx": 4,
+    "question": "How does the DAO voting system work?",
+    "answer": "Members of the community can present proposals for new projects or further analysis and development. These proposals require a detailed description and must reach a predetermined quorum to be valid and visible to more users. Token holders participate in voting, influencing the direction of the IP development based on their share of tokens."
+  },
+  {
+    "idx": 5,
+    "question": "What is the purpose of the ERC1155 token?",
+    "answer": "The ERC1155 token represents ownership of specific IPs. Each token is unique and tied to a specific IP, ensuring uniqueness and authenticity. This token standard is ideal for managing complex rights over an IP, facilitating transparent tracking, and enabling flexible commercialization."
+  },
+  {
+    "idx": 6,
+    "question": "What benefits do authors receive from Hiropitch?",
+    "answer": "Authors gain visibility and an equal opportunity to present their works to a diverse audience, receive continuous feedback and support, and increase their chances of success in the market. The platform also offers a personalized space for authors to showcase their IPs and interact with producers and investors."
+  },
+  {
+    "idx": 7,
+    "question": "How does Hiropitch support producers and distributors?",
+    "answer": "Producers and distributors gain access to a diverse pool of unique and innovative IPs from creators worldwide. They can better understand market trends and audience preferences through the DAO voting system, allowing them to make more informed and strategic choices."
+  },
+  {
+    "idx": 8,
+    "question": "What are the steps involved in registering an IP as an NFT on Hiropitch?",
+    "answer": "Authors register their IP as an NFT using the ERC1155 token. The process includes detailed documentation of the IP to ensure its uniqueness and authenticity, complying with intellectual property laws to protect all legal rights."
+  },
+  {
+    "idx": 9,
+    "question": "What incentives are there for early adopters participating in the ICO?",
+    "answer": "Early adopters who participate in the Initial Coin Offering (ICO) can purchase tokens at a potentially lower price than their future market value, benefit from the platform's growth, and gain an influential role within the DAO. They may also receive exclusive rewards such as early access to special features, reduced fees, or bonuses for future transactions."
+  }
 ]
