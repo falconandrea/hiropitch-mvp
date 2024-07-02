@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.4",
+    "@metaplex-foundation/js": "^0.20.1",
+    "@solana/spl-token": "^0.4.7",
+    "@solana/web3.js": "^1.94.0",
     "@supabase/supabase-js": "^2.43.5",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
