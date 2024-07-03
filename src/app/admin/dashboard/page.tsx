@@ -35,13 +35,14 @@ export default async function Dashboard() {
 
   return (
     <div>
-      {posts.map((post) => (
-        <ListPosts
-          key={post.id}
-          content={post.content}
-          counters={post.counters}
-        />
-      ))}
+      {posts &&
+        posts.map((post) => (
+          <ListPosts
+            key={post.id}
+            content={post.content}
+            counters={post.counters}
+          />
+        ))}
     </div>
   );
 }
