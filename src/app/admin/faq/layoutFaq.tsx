@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useState, Dispatch, SetStateAction } from "react";
-import Image from "next/image";
 import down from "../../../../public/down.svg";
+import Image from "next/image";
 
 type Props = {
     question: string;
