@@ -44,6 +44,6 @@ const IdeaSchema = new Schema(
   { timestamps: true }
 );
 
-const Idea = models?.Idea || model('Idea', IdeaSchema);
+const Idea = models.Idea || model('Idea', IdeaSchema);
 
 export default Idea;
