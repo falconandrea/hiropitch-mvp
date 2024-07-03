@@ -1,16 +1,15 @@
 'use client';
 
-import ListIdeas from '@/components/admin/dashboard/ListIdeas';
-import { getIdeas } from '@/lib/actions/idea.actions';
+import ListPosts from '@/components/admin/dashboard/ListPosts';
+import { getPosts } from '@/lib/actions/post.actions';
 import { useEffect, useState } from 'react';
 
 export default async function Dashboard() {
-  // Get Ideas from db
-  const [ideas, setIdeas] = useState<
+  // Get Posts from db
+  const [posts, setPosts] = useState<
     {
       id: number;
-      title: string;
-      description: string;
+      content: string;
       counters: {
         like: number;
         comments: number;
@@ -21,26 +20,26 @@ export default async function Dashboard() {
   >([]);
   useEffect(() => {
     // Fetch data from API
-    const fetchIdeas = async () => {
+    const fetchPosts = async () => {
       try {
-        const data = await getIdeas({}, {}, 10);
-        setIdeas(data);
+        const data = await getPosts({}, {}, 10);
+        console.log('data', data);
+        setPosts(data);
       } catch (error) {
-        console.error('Error fetching ideas:', error);
+        console.error('Error fetching posts:', error);
       }
     };
 
-    fetchIdeas();
+    fetchPosts();
   }, []);
 
   return (
     <div>
-      {ideas.map((idea) => (
-        <ListIdeas
-          key={idea.id}
-          title={idea.title}
-          description={idea.description}
-          counters={idea.counters}
+      {posts.map((post) => (
+        <ListPosts
+          key={post.id}
+          content={post.content}
+          counters={post.counters}
         />
       ))}
     </div>

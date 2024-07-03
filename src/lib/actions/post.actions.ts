@@ -18,7 +18,16 @@ export async function getPosts(filters: any, sortOptions: any, limit: number) {
   try {
     await connect();
 
-    const posts = await Post.find(filters).sort(sortOptions).limit(limit);
+    const posts = await Post.find(filters)
+      .sort(sortOptions)
+      .limit(limit)
+      .populate('ideaId', 'title')
+      .populate('userId', 'firstName lastName')
+      .populate({
+        path: 'createdAt',
+        select: 'createdAt',
+      });
+
     return JSON.parse(JSON.stringify(posts));
   } catch (error) {
     console.log(error);
