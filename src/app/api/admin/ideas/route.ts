@@ -1,5 +1,6 @@
 import { uploadFileToSupabase } from '@/lib/supabaseUpload';
 import { createIdea } from '@/lib/actions/idea.actions';
+import { createPost } from '@/lib/actions/post.actions';
 import { getAuth } from '@clerk/nextjs/server';
 import { NextRequest } from 'next/server';
 import { getUserByClerkID } from '@/lib/actions/user.actions';
@@ -77,10 +78,17 @@ export async function POST(req: NextRequest) {
       creatorId: _id,
     };
 
-    console.log('Idea', idea);
-
     // Create idea
     const newIdea = await createIdea(idea);
+
+    // Create post
+    if (formData.get('post')) {
+      const newPost = await createPost({
+        content: formData.get('post') as string,
+        userId: _id,
+        ideaId: newIdea._id,
+      });
+    }
 
     return Response.json({ message: 'Idea created successfully', newIdea });
   } catch (error) {

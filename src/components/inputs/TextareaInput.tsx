@@ -2,7 +2,7 @@ export interface TextareaInputProps {
   label: string;
   placeholder: string;
   name: string;
-  required: boolean;
+  required?: boolean;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
@@ -12,7 +12,7 @@ export default function TextareaInput({
   placeholder,
   name,
   required = false,
-  value,
+  value = '',
   onChange,
 }: TextareaInputProps) {
   return (
