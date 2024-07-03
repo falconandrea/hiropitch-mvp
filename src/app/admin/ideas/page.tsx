@@ -22,6 +22,7 @@ export default function Ideas() {
     referenceLinks: string[];
     file: File | null;
     fileStructure: any;
+    post?: string;
   }>({
     title: '',
     description: '',
@@ -32,6 +33,7 @@ export default function Ideas() {
     referenceLinks: [],
     file: null,
     fileStructure: null,
+    post: '',
   });
 
   /* For MultipleTexts */
@@ -138,6 +140,9 @@ export default function Ideas() {
     data.append('fileStructure', JSON.stringify(formData.fileStructure));
     data.append('authors', JSON.stringify(formData.authors));
     data.append('referenceLinks', JSON.stringify(formData.referenceLinks));
+    if (formData.post) {
+      data.append('post', formData.post);
+    }
 
     try {
       const response = await fetch('/api/admin/ideas', {
@@ -170,6 +175,7 @@ export default function Ideas() {
         referenceLinks: [],
         file: null,
         fileStructure: null,
+        post: '',
       });
 
       // Hide success message after 3 seconds
@@ -201,27 +207,27 @@ export default function Ideas() {
             />
 
             <SelectInput
-              label='IP category'
-              name='category'
+              label='Contract Type'
+              name='contractType'
               required={true}
               onChange={handleFormChange}
               options={IPContractTypes.map((contractType) => ({
                 value: contractType,
                 label: contractType,
               }))}
-              value={formData.category}
+              value={formData.contractType}
             />
 
             <SelectInput
-              label='Contract Type'
-              name='contractType'
+              label='IP category'
+              name='category'
               required={true}
               onChange={handleFormChange}
               options={IPCategories.map((category) => ({
                 value: category,
                 label: category,
               }))}
-              value={formData.contractType}
+              value={formData.category}
             />
 
             <TextareaInput
@@ -261,6 +267,16 @@ export default function Ideas() {
             />
           </div>
         </div>
+
+        <hr className='mb-8' />
+
+        <TextareaInput
+          label='If you want to create a post to share with the community, please write it here!'
+          name='post'
+          value={formData.post || ''}
+          onChange={handleFormChange}
+          placeholder='Write your post here!'
+        />
 
         {/* SUBMIT BUTTON */}
         <div className='flex flex-col items-center justify-center'>

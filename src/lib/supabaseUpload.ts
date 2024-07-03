@@ -1,24 +1,22 @@
 import { supabase } from './supabaseClient';
 
-export async function uploadFileToSupabase(file: File) {
+export async function uploadFileToSupabase(file: File, folder: string) {
   const fileName = file.name;
   const { data, error } = await supabase.storage
     .from(process.env.SUPABASE_BUCKET || 'hiropitch')
-    .upload(fileName, file, { upsert: true });
+    .upload(`${folder}/${fileName}`, file, { upsert: true });
 
   if (error) {
     throw new Error(`Failed to upload file: ${error.message}`);
   }
 
-  // Get the URL or path of the uploaded file
-  const filePath = data?.path;
-
   const uploadedFile = supabase.storage
     .from(process.env.SUPABASE_BUCKET || 'hiropitch')
-    .getPublicUrl(filePath);
+    .getPublicUrl(data.path);
 
   return {
-    publicUrl: uploadedFile.data.publicUrl,
-    filePath: filePath,
+    filePublicUrl: uploadedFile.data.publicUrl,
+    filePath: data.path,
+    fileId: data.id,
   };
 }
