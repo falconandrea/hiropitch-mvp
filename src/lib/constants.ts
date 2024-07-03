@@ -7,6 +7,8 @@ const IPContractTypes = [
   'Acquisto parziale dei diritti patrimoniali',
   'Coproduzione',
   'Licenza',
+  'Opzione',
+  'Altro',
 ];
 const IPCategories = [
   'Fumetti',
@@ -18,5 +20,6 @@ const IPCategories = [
   'Soggetto',
   'Videogame story',
   'Videogame MVP',
+  'Altro',
 ];
 export { IPContractTypes, IPCategories };
