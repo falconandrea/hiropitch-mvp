@@ -21,7 +21,12 @@ export async function POST(req: NextRequest) {
     const contractType = formData.get('contractType');
     const authorsJSON = formData.getAll('authors');
     const referenceLinksJSON = formData.getAll('referenceLinks');
-    const fileStructureJSON = formData.get('fileStructure');
+    let fileStructure = null;
+    let fileStructureJSON = null;
+    if (formData.get('fileStructure')) {
+      fileStructureJSON = formData.get('fileStructure');
+      fileStructure = JSON.parse(fileStructureJSON as string);
+    }
 
     // Format authors and referenceLinks
     const authors = JSON.parse(authorsJSON as unknown as string)
@@ -31,7 +36,7 @@ export async function POST(req: NextRequest) {
       .map((referenceLink: string) => referenceLink.toString())
       .filter((referenceLink: string) => referenceLink !== '');
 
-    const fileStructure = JSON.parse(fileStructureJSON as string);
+    console.log(authorsJSON);
 
     // Check if required fields are present
     if (
@@ -40,8 +45,7 @@ export async function POST(req: NextRequest) {
       !category ||
       !contractType ||
       !authors ||
-      !referenceLinks ||
-      !fileStructure
+      !referenceLinks
     ) {
       return Response.json(
         { message: 'Missing required fields' },
@@ -54,7 +58,15 @@ export async function POST(req: NextRequest) {
     const { _id } = currentUser;
 
     // Upload file
-    let file = null;
+    let file = {
+      filePublicUrl: null,
+      filePath: null,
+      fileId: null,
+    } as {
+      filePublicUrl: string | null;
+      filePath: string | null;
+      fileId: string | null;
+    };
     const uploadedFile = formData.getAll('file')[0];
     if (uploadedFile) {
       try {
@@ -62,8 +74,6 @@ export async function POST(req: NextRequest) {
       } catch (error) {
         console.log('upload file', error);
       }
-    } else {
-      return Response.json({ message: 'Missing file' }, { status: 400 });
     }
 
     const idea = {
@@ -73,9 +83,9 @@ export async function POST(req: NextRequest) {
       contractType,
       authors,
       referenceLinks,
+      creatorId: _id,
       file,
       fileStructure,
-      creatorId: _id,
     };
 
     // Create idea
@@ -89,6 +99,14 @@ export async function POST(req: NextRequest) {
         ideaId: newIdea._id,
       });
     }
+
+    // Create NFT Collection
+    const json = {
+      title,
+      category,
+      contractType,
+      authors,
+    };
 
     return Response.json({ message: 'Idea created successfully', newIdea });
   } catch (error) {
