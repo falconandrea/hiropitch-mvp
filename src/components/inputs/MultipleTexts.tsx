@@ -35,6 +35,11 @@ export default function MultipleTexts({
           id={name}
           value={inputValue}
           onChange={onChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              onAddValue();
+            }
+          }}
           name={name}
           placeholder={placeholder}
           className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
