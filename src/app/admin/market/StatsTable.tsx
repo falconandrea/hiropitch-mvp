@@ -74,6 +74,8 @@ function StatTable({
                 <div className='relative aspect-square w-14 overflow-hidden rounded-xl border lg:w-[4.25rem]'>
                   <Image
                     alt=''
+                    width={300}
+                    height={300}
                     src={`/carousel/${item.image}`}
                     className='absolute inset-0 h-full w-full object-cover object-center'
                   />

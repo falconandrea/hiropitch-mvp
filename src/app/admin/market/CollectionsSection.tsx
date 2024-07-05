@@ -71,6 +71,8 @@ export default function CollectionsSection({ title }: { title: string }) {
               >
                 <div className='relative aspect-video'>
                   <Image
+                    width={300}
+                    height={300}
                     alt=''
                     src={`/carousel/${item.image}`}
                     className='absolute inset-0 h-full w-full object-cover object-top'
