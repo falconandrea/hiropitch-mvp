@@ -5,7 +5,7 @@ import {
 } from '@metaplex-foundation/js';
 import { Connection, clusterApiUrl, Keypair } from '@solana/web3.js';
 
-const connection = new Connection(clusterApiUrl('testnet'));
+const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
 // Get Payer wallet
 const secretKey = Uint8Array.from(
@@ -15,6 +15,12 @@ const payer = Keypair.fromSecretKey(secretKey);
 
 const metaplex = Metaplex.make(connection)
   .use(keypairIdentity(payer))
-  .use(irysStorage());
+  .use(
+    irysStorage({
+      address: 'https://devnet.irys.xyz',
+      providerUrl: 'https://api.devnet.solana.com',
+      timeout: 60000,
+    })
+  );
 
-export default metaplex;
+export { metaplex, payer };
