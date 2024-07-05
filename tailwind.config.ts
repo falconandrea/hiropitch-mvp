@@ -11,6 +11,9 @@ const config: Config = {
       fontFamily: {
         outfit: ['var(--font-outfit)'],
       },
+      maxWidth: {
+        '8xl': '160rem',
+      },
       lineHeight: { '12': '3.4rem', '16': '4.2rem' },
     },
   },

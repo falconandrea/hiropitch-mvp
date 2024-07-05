@@ -1,7 +1,7 @@
 "use client"
 
 import CollectionsSection from './CollectionsSection'
-import HeroSection from './Herosection'
+import HeroSection from './HeroSection'
 import StatsTable from './StatsTable'
 import Header from './Header'
 import './index.css'
