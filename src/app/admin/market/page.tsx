@@ -4,7 +4,6 @@ import CollectionsSection from './CollectionsSection';
 import HeroSection from './HeroSection';
 import StatsTable from './StatsTable';
 import Header from './Header';
-import './index.css';
 
 export default function Market() {
   return (
