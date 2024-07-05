@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import LayoutFaq from "./layoutFaq";
-import Head from "next/head";
-import faqs from "../../../../public/faqs.json";
+import { useState } from 'react';
+import LayoutFaq from './layoutFaq';
+import Head from 'next/head';
+import faqs from '../../../../public/faqs.json';
 
 export default function Faqpage() {
   const initialActiveState = Array(faqs.length).fill(false);
@@ -20,7 +20,7 @@ export default function Faqpage() {
       <Head>
         <title>FAQs</title>
       </Head>
-      <div className="grid place-items-center w-full">
+      <div className='grid w-full place-items-center'>
         <LayoutFaq
           handleClick={handleClick}
           isSomeActive={isSomeActive}

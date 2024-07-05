@@ -15,7 +15,7 @@ export function Sidebar() {
   };
 
   return (
-    <div className='min-h-screen w-64 bg-gray-800 h-screen sticky top-0'>
+    <div className='sticky top-0 h-screen min-h-screen w-64 bg-gray-800'>
       <div className='flex h-full flex-col justify-between'>
         <div>
           <h1 className='px-4 py-4 text-3xl font-bold text-white'>hiropitch</h1>

@@ -1,6 +1,5 @@
 export const MAIN_TABS = ['All', 'Movies', 'Tv Programs', 'Tv Series', 'Videogames', 'Art']
 
-
 export const CAROUSEL_ITEMS = [
   { image: '8.png', name: 'prova3', floor: '0.03ETH' },
   { image: '1.png', name: 'Collection Name', floor: '0.03ETH' },
@@ -14,9 +13,9 @@ export const CAROUSEL_ITEMS = [
   { image: '10.jpg', name: 'Collection Name', floor: '0.03ETH' },
   { image: '11.png', name: 'Collection Name', floor: '0.03ETH' },
   { image: '12.jpg', name: 'Collection Name', floor: '0.03ETH' },
-]
+];
 
-//tutte le variabili nome delle collezioni sotto il carousel 
+//tutte le variabili nome delle collezioni sotto il carousel
 export const STATS_TABLE = [
   { image: '1.png', name: 'Collection Name', floor: 0.03, volume: 25 },
   { image: '2.png', name: 'Collection Name', floor: 0.03, volume: 25 },
@@ -28,13 +27,27 @@ export const STATS_TABLE = [
   { image: '8.png', name: 'Collection Name', floor: 0.03, volume: 25 },
   { image: '9.png', name: 'Collection Name', floor: 0.03, volume: 25 },
   { image: '10.jpg', name: 'Collection Name', floor: 0.03, volume: 25 },
-]
-
+];
 
 //da qui in poi non ci serve
-export const FOOTER_MARKETPLACE = ['All ', 'Art', 'Gaming', 'Memberships', 'PFPs', 'Photography']
-export const FOOTER_MYACCOUNT = ['Profile', 'Favorites', 'Watchlist', 'My Collections', 'Create', 'OpenSea Pro', 'Settings']
-export const FOOTER_STATS = ['Rankings', 'Activity']
+export const FOOTER_MARKETPLACE = [
+  'All NFTs',
+  'Art',
+  'Gaming',
+  'Memberships',
+  'PFPs',
+  'Photography',
+];
+export const FOOTER_MYACCOUNT = [
+  'Profile',
+  'Favorites',
+  'Watchlist',
+  'My Collections',
+  'Create',
+  'OpenSea Pro',
+  'Settings',
+];
+export const FOOTER_STATS = ['Rankings', 'Activity'];
 export const FOOTER_RESOURCES = [
   'Blog',
   'Learn',
@@ -44,8 +57,8 @@ export const FOOTER_RESOURCES = [
   'Partners',
   'Developer Platform',
   'Platform Status',
-]
-export const FOOTER_COMPANY = ['About', 'Careers', 'Ventures']
+];
+export const FOOTER_COMPANY = ['About', 'Careers', 'Ventures'];
 export const FOOTER_LEARN = [
   'What is an NFT?',
   'How to buy an NFT',
@@ -58,4 +71,4 @@ export const FOOTER_LEARN = [
   'What is a blockchain?',
   'What is web3?',
   'How to stay protected in web3',
-]
+];

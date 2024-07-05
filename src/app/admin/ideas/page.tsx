@@ -107,9 +107,7 @@ export default function Ideas() {
       formData.category.trim() === '' ||
       formData.contractType.trim() === '' ||
       formData.authors.length === 0 ||
-      formData.referenceLinks.length === 0 ||
-      formData.file === null ||
-      formData.fileStructure === null
+      formData.referenceLinks.length === 0
     ) {
       return false;
     }
@@ -136,8 +134,10 @@ export default function Ideas() {
     data.append('description', formData.description);
     data.append('category', formData.category);
     data.append('contractType', formData.contractType);
-    data.append('file', formData.file as File);
-    data.append('fileStructure', JSON.stringify(formData.fileStructure));
+    if (formData.file) {
+      data.append('file', formData.file as File);
+      data.append('fileStructure', JSON.stringify(formData.fileStructure));
+    }
     data.append('authors', JSON.stringify(formData.authors));
     data.append('referenceLinks', JSON.stringify(formData.referenceLinks));
     if (formData.post) {

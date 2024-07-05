@@ -34,11 +34,9 @@ const IdeaSchema = new Schema(
     },
     file: {
       type: Object,
-      required: true,
     },
     fileStructure: {
       type: Schema.Types.Mixed,
-      required: true,
     },
   },
   { timestamps: true }
