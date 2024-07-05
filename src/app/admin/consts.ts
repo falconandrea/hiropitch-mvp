@@ -1,4 +1,4 @@
-export const MAIN_TABS = ['All', 'Art', 'Gaming', 'Memberships', 'PFPs', 'Photography']
+export const MAIN_TABS = ['All', 'Movies', 'Tv Programs', 'Tv Series', 'Videogames', 'Art']
 
 
 export const CAROUSEL_ITEMS = [
@@ -32,7 +32,7 @@ export const STATS_TABLE = [
 
 
 //da qui in poi non ci serve
-export const FOOTER_MARKETPLACE = ['All NFTs', 'Art', 'Gaming', 'Memberships', 'PFPs', 'Photography']
+export const FOOTER_MARKETPLACE = ['All ', 'Art', 'Gaming', 'Memberships', 'PFPs', 'Photography']
 export const FOOTER_MYACCOUNT = ['Profile', 'Favorites', 'Watchlist', 'My Collections', 'Create', 'OpenSea Pro', 'Settings']
 export const FOOTER_STATS = ['Rankings', 'Activity']
 export const FOOTER_RESOURCES = [
