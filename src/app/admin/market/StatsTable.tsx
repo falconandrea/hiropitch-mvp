@@ -3,6 +3,7 @@ import { HTMLAttributes, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from './Button';
 import Container from './Container';
+import Image from 'next/image';
 
 export default function StatsTable() {
   return (
@@ -71,7 +72,8 @@ function StatTable({
             <td>
               <div className='flex items-center gap-x-3 pr-6 md:gap-x-6'>
                 <div className='relative aspect-square w-14 overflow-hidden rounded-xl border lg:w-[4.25rem]'>
-                  <img
+                  <Image
+                    alt=''
                     src={`/carousel/${item.image}`}
                     className='absolute inset-0 h-full w-full object-cover object-center'
                   />

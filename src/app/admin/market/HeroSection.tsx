@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Autoplay, FreeMode, Mousewheel, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Container from './Container';
+import Image from 'next/image';
 
 export default function HeroSection() {
   const [background, setBackground] = useState(0);
@@ -79,7 +80,8 @@ function Carousel({
               className='group relative flex aspect-square w-full cursor-pointer overflow-hidden rounded-2xl bg-white/10'
               key={i}
             >
-              <img
+              <Image
+                alt=''
                 src={`/carousel/${item.image}`}
                 loading='lazy'
                 className='pointer-events-none absolute h-full w-full origin-center scale-[1.01] select-none object-cover object-center transition-transform duration-500 will-change-transform group-hover:scale-110'

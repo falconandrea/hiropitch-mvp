@@ -4,6 +4,7 @@ import { Mousewheel, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Button from './Button';
 import Container from './Container';
+import Image from 'next/image';
 
 const commonBiggerScreen = {
   centeredSlides: false,
@@ -69,7 +70,8 @@ export default function CollectionsSection({ title }: { title: string }) {
                 key={i}
               >
                 <div className='relative aspect-video'>
-                  <img
+                  <Image
+                    alt=''
                     src={`/carousel/${item.image}`}
                     className='absolute inset-0 h-full w-full object-cover object-top'
                   />

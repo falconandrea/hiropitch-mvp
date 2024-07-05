@@ -11,7 +11,7 @@ export default function Container({
   return (
     <div
       className={twMerge(
-        'max-w-8xl mx-auto px-4 md:px-6 lg:px-8 2xl:px-14',
+        'mx-auto max-w-8xl px-4 md:px-6 lg:px-8 2xl:px-14',
         className
       )}
     >
