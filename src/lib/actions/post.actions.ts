@@ -33,7 +33,7 @@ export async function getPosts(filters: any, sortOptions: any, limit: number) {
     const posts = await Post.find(filters)
       .sort(sortOptions)
       .limit(limit)
-      .populate('ideaId', 'title')
+      .populate('ideaId', 'id title')
       .populate('userId', 'firstName lastName')
       .populate({
         path: 'createdAt',

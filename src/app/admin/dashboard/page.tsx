@@ -1,23 +1,14 @@
 'use client';
 
-import ListPosts from '@/components/admin/dashboard/ListPosts';
+import ListPost from '@/components/admin/dashboard/ListPost';
 import { getPosts } from '@/lib/actions/post.actions';
 import { useEffect, useState } from 'react';
+import { InterfacePost } from '@/lib/interfaces';
 
-export default async function Dashboard() {
+export default function Dashboard() {
   // Get Posts from db
-  const [posts, setPosts] = useState<
-    {
-      id: number;
-      content: string;
-      counters: {
-        like: number;
-        comments: number;
-        tips: number;
-        investors: number;
-      };
-    }[]
-  >([]);
+  const [posts, setPosts] = useState<InterfacePost[]>([]);
+
   useEffect(() => {
     // Fetch data from API
     const fetchPosts = async () => {
@@ -35,14 +26,7 @@ export default async function Dashboard() {
 
   return (
     <div>
-      {posts &&
-        posts.map((post) => (
-          <ListPosts
-            key={post.id}
-            content={post.content}
-            counters={post.counters}
-          />
-        ))}
+      {posts && posts.map((post: InterfacePost) => <ListPost post={post} />)}
     </div>
   );
 }
