@@ -1,4 +1,5 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 interface ClerkButtonProps {
   className: string;
@@ -11,7 +12,13 @@ export default function ClerkButton({ className }: ClerkButtonProps) {
         <SignInButton />
       </SignedOut>
       <SignedIn>
-        <UserButton />
+        <Link
+          href='/admin/dashboard'
+          title=''
+          className='hover:text-underline text-white'
+        >
+          Dashboard
+        </Link>
       </SignedIn>
     </div>
   );
