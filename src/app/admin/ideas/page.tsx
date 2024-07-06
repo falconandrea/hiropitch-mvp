@@ -10,6 +10,7 @@ import { IPContractTypes, IPCategories } from '@/lib/constants';
 import MultipleTexts from '@/components/inputs/MultipleTexts';
 import FileUploader from '@/components/FileUploader';
 import Loading from '../loading';
+import NumberInput from '@/components/inputs/NumberInput';
 
 export default function Ideas() {
   const [formData, setFormData] = useState<{
@@ -22,6 +23,8 @@ export default function Ideas() {
     referenceLinks: string[];
     file: File | null;
     fileStructure: any;
+    nftQty: string;
+    nftPrice: string;
     post?: string;
   }>({
     title: '',
@@ -31,6 +34,8 @@ export default function Ideas() {
     authors: [],
     referenceLink: '',
     referenceLinks: [],
+    nftQty: '1',
+    nftPrice: '1',
     file: null,
     fileStructure: null,
     post: '',
@@ -107,7 +112,9 @@ export default function Ideas() {
       formData.category.trim() === '' ||
       formData.contractType.trim() === '' ||
       formData.authors.length === 0 ||
-      formData.referenceLinks.length === 0
+      formData.referenceLinks.length === 0 ||
+      formData.nftQty.trim() === '' ||
+      formData.nftPrice.trim() === ''
     ) {
       return false;
     }
@@ -143,6 +150,8 @@ export default function Ideas() {
     if (formData.post) {
       data.append('post', formData.post);
     }
+    data.append('nftQty', formData.nftQty);
+    data.append('nftPrice', formData.nftPrice);
 
     try {
       const response = await fetch('/api/admin/ideas', {
@@ -175,6 +184,8 @@ export default function Ideas() {
         referenceLinks: [],
         file: null,
         fileStructure: null,
+        nftQty: '1',
+        nftPrice: '1',
         post: '',
       });
 
@@ -268,7 +279,7 @@ export default function Ideas() {
           </div>
         </div>
 
-        <hr className='mb-8' />
+        <hr className='mb-8 mt-4' />
 
         <TextareaInput
           label='If you want to create a post to share with the community, please write it here!'
@@ -278,8 +289,40 @@ export default function Ideas() {
           placeholder='Write your post here!'
         />
 
+        <hr className='my-8' />
+
+        <p className='mb-4'>
+          Your idea will be saved on the blockchain. Choose how many NFTs you
+          want to create and what the price of each will be.
+        </p>
+        <div className='flex flex-col xl:flex-row xl:gap-x-4'>
+          {/* Column Left */}
+          <div className='w-full xl:w-1/2'>
+            <NumberInput
+              step='1'
+              label='Quantity of NFTs'
+              name='nftQty'
+              required={true}
+              value={formData.nftQty}
+              onChange={handleFormChange}
+              placeholder='Quantity of NFTs you want create'
+            />
+          </div>
+          <div className='w-full xl:w-1/2'>
+            <NumberInput
+              step='1'
+              label='Price of NFTs (SOL)'
+              name='nftPrice'
+              required={true}
+              value={formData.nftPrice}
+              onChange={handleFormChange}
+              placeholder='Price of single NFT in Solana'
+            />
+          </div>
+        </div>
+
         {/* SUBMIT BUTTON */}
-        <div className='flex flex-col items-center justify-center'>
+        <div className='mt-8 flex flex-col items-center justify-center'>
           <button
             type='submit'
             disabled={loading}
