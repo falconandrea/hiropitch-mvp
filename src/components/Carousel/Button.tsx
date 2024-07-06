@@ -1,9 +1,10 @@
-import { ButtonHTMLAttributes } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { ButtonHTMLAttributes } from 'react'
+import { twMerge } from 'tailwind-merge'
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
-//layout dei bottoni presenti nella pagina
+
+//layout dei bottoni presenti nella pagina 
 export default function Button({ className, ...rest }: ButtonProps) {
   return (
     <button
@@ -13,5 +14,5 @@ export default function Button({ className, ...rest }: ButtonProps) {
       )}
       {...rest}
     />
-  );
+  )
 }
