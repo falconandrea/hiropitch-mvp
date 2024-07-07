@@ -1,14 +1,26 @@
-"use client"
+'use client';
 
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import '../globals.css'
+import CollectionsSection from '../../../components/Carousel/CollectionsSection';
+import HeroSection from '../../../components/Carousel/HeroSection';
+import StatsTable from '../../../components/Carousel/StatsTable';
+import BaseLayout from '../../../components/Carousel/baselayout/BaseLayout';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import '../globals.css';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+export default function Market() {
+  return (
+    <BaseLayout>
+      <HeroSection />
+      <StatsTable />
+      <CollectionsSection title='Notable Collections' />
+      {/*
+      <CollectionsSection title='Top Collector Buys Today' />
+      <CollectionsSection title='LGBTQIA+ Pride Month Creator Spotlight' />
+      <CollectionsSection title='Trending in Art' />
+      <CollectionsSection title='Trending in Gaming' />
+      <CollectionsSection title='Trending in Memberships' />
+      */}
+    </BaseLayout>
+  );
+}

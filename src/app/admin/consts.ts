@@ -1,18 +1,17 @@
-export const MAIN_TABS = ['All', 'Movies', 'Tv Programs', 'Tv Series', 'Videogames', 'Art']
+export const MAIN_TABS = [
+  'All',
+  'Movies',
+  'Tv Programs',
+  'Tv Series',
+  'Videogames',
+  'Art',
+];
 
 export const CAROUSEL_ITEMS = [
-  { image: '8.png', name: 'prova3', floor: '0.03ETH' },
   { image: '1.png', name: 'Collection Name', floor: '0.03ETH' },
   { image: '2.png', name: 'Collection Name', floor: '0.03ETH' },
   { image: '3.png', name: 'Collection Name', floor: '0.03ETH' },
   { image: '5.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '6.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '7.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '9.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '4.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '10.jpg', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '11.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '12.jpg', name: 'Collection Name', floor: '0.03ETH' },
 ];
 
 //tutte le variabili nome delle collezioni sotto il carousel
