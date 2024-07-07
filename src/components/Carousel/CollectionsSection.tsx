@@ -1,9 +1,10 @@
-import { STATS_TABLE } from '../../app/admin/consts'
-import { useMemo } from 'react'
-import { Mousewheel, Navigation } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import Button from './Button'
-import Container from './Container'
+import { STATS_TABLE } from '../../app/admin/consts';
+import { useMemo } from 'react';
+import { Mousewheel, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import Button from './Button';
+import Container from './Container';
+import Image from 'next/image';
 
 const commonBiggerScreen = {
   centeredSlides: false,
@@ -11,25 +12,26 @@ const commonBiggerScreen = {
   spaceBetween: 15,
   slidesOffsetBefore: 0,
   slidesOffsetAfter: 0,
-}
-
+};
 
 //PARTE DELLA PAGINA DEDICATO A SEZIONI SPECIFICHE SOTTO LA TABELLA
 export default function CollectionsSection({ title }: { title: string }) {
   const shuffledData = useMemo(() => {
-    return STATS_TABLE.sort(() => 0.5 - Math.random())
-  }, [])
+    return STATS_TABLE.sort(() => 0.5 - Math.random()).slice(0, 4);
+  }, []);
 
   return (
-    <Container className="pt-16">
-      <div className="flex items-center justify-between">
-        <span className="font-poppins text-lg font-semibold text-slate-900 md:text-2xl">{title}</span>
+    <Container className='pt-16'>
+      <div className='flex items-center justify-between'>
+        <span className='font-poppins text-lg font-semibold text-slate-900 md:text-2xl'>
+          {title}
+        </span>
+        {/*
         <Button>View All</Button>
+        */}
       </div>
 
-
-
-      <div className="-mx-4 sm:mx-0">
+      <div className='-mx-4 sm:mx-0'>
         <Swiper
           modules={[Navigation, Mousewheel]}
           mousewheel={{ invert: false, forceToAxis: true }}
@@ -45,33 +47,55 @@ export default function CollectionsSection({ title }: { title: string }) {
             },
             600: { slidesPerView: 2, slidesPerGroup: 2, ...commonBiggerScreen },
             768: { slidesPerView: 3, slidesPerGroup: 3, ...commonBiggerScreen },
-            1024: { slidesPerView: 4, slidesPerGroup: 4, ...commonBiggerScreen },
-            1200: { slidesPerView: 5, slidesPerGroup: 5, ...commonBiggerScreen },
-            1600: { slidesPerView: 6, slidesPerGroup: 6, ...commonBiggerScreen },
+            1024: {
+              slidesPerView: 4,
+              slidesPerGroup: 4,
+              ...commonBiggerScreen,
+            },
+            1200: {
+              slidesPerView: 5,
+              slidesPerGroup: 5,
+              ...commonBiggerScreen,
+            },
+            1600: {
+              slidesPerView: 6,
+              slidesPerGroup: 6,
+              ...commonBiggerScreen,
+            },
           }}
           navigation
-          className="collections-slide"
+          className='collections-slide'
         >
           {shuffledData.map((item, i) => (
             <SwiperSlide key={i}>
               <div
-                className="cursor-pointer overflow-hidden rounded-2xl shadow duration-200 will-change-transform hover:-translate-y-1 hover:shadow-md sm:w-full"
+                className='cursor-pointer overflow-hidden rounded-2xl shadow duration-200 will-change-transform hover:-translate-y-1 hover:shadow-md sm:w-full'
                 key={i}
               >
-                <div className="relative aspect-video">
-                  <img src={`/carousel/${item.image}`} className="absolute inset-0 h-full w-full object-cover object-top" />
+                <div className='relative aspect-video'>
+                  <Image
+                    height={300}
+                    width={300}
+                    alt=''
+                    src={`/carousel/${item.image}`}
+                    className='absolute inset-0 h-full w-full object-cover object-top'
+                  />
                 </div>
-                <div className="p-4">
-                  <p className="font-semibold text-slate-900">{item.name}</p>
+                <div className='p-4'>
+                  <p className='font-semibold text-slate-900'>{item.name}</p>
 
-                  <div className="mt-4 flex gap-x-8">
+                  <div className='mt-4 flex gap-x-8'>
                     <div>
-                      <p className="text-sm">Floor</p>
-                      <p className="font-semibold text-slate-900">{item.floor} ETH</p>
+                      <p className='text-sm'>To pay to be part</p>
+                      <p className='font-semibold text-slate-900'>
+                        {item.floor} Sol
+                      </p>
                     </div>
                     <div>
-                      <p className="text-sm">24h Volume</p>
-                      <p className="font-semibold text-slate-900">{item.volume} ETH</p>
+                      <p className='text-sm'>Goal</p>
+                      <p className='font-semibold text-slate-900'>
+                        {item.volume} / {item.total}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -81,5 +105,5 @@ export default function CollectionsSection({ title }: { title: string }) {
         </Swiper>
       </div>
     </Container>
-  )
+  );
 }

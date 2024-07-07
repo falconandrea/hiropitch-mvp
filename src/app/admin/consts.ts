@@ -1,31 +1,85 @@
 export const MAIN_TABS = [
   'All',
   'Movies',
-  'Tv Programs',
+  'Cartoons',
   'Tv Series',
   'Videogames',
   'Art',
 ];
 
 export const CAROUSEL_ITEMS = [
-  { image: '1.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '2.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '3.png', name: 'Collection Name', floor: '0.03ETH' },
-  { image: '5.png', name: 'Collection Name', floor: '0.03ETH' },
+  { image: '1a.png', name: 'The new novel of Mark', floor: 12 },
+  { image: '2a.png', name: 'Magic & Fantasy to the Moon', floor: 23 },
+  { image: '3a.png', name: 'Indiana Jones into the Metaverse', floor: 20 },
+  { image: '5a.png', name: 'The blue butterflies', floor: 31 },
 ];
 
 //tutte le variabili nome delle collezioni sotto il carousel
 export const STATS_TABLE = [
-  { image: '1.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '2.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '3.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '4.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '5.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '6.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '7.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '8.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '9.png', name: 'Collection Name', floor: 0.03, volume: 25 },
-  { image: '10.jpg', name: 'Collection Name', floor: 0.03, volume: 25 },
+  {
+    image: '1a.png',
+    name: 'The new novel of Mark',
+    floor: 12,
+    volume: 40,
+    total: 100,
+  },
+  {
+    image: '2a.png',
+    name: 'Magic & Fantasy to the Moon',
+    floor: 23,
+    volume: 35,
+    total: 50,
+  },
+  {
+    image: '3a.png',
+    name: 'Indiana Jones into the Metaverse',
+    floor: 20,
+    volume: 9,
+    total: 15,
+  },
+  {
+    image: '4a.png',
+    name: 'Pepe Ninja',
+    floor: 12,
+    volume: 35,
+    total: 110,
+  },
+  {
+    image: '5a.png',
+    name: 'The blue butterflies',
+    floor: 31,
+    volume: 35,
+    total: 50,
+  },
+  {
+    image: '6a.png',
+    name: 'The sound of Crypto',
+    floor: 31,
+    volume: 67,
+    total: 150,
+  },
+  {
+    image: '7a.png',
+    name: 'On-Chain Noise',
+    floor: 25,
+    volume: 88,
+    total: 100,
+  },
+  { image: '8a.png', name: 'The Metaverse', floor: 23, volume: 12, total: 20 },
+  {
+    image: '9a.png',
+    name: 'Play with the Horse',
+    floor: 10,
+    volume: 10,
+    total: 25,
+  },
+  {
+    image: '10a.jpg',
+    name: 'Our future',
+    floor: 100,
+    volume: 25,
+    total: 50,
+  },
 ];
 
 //da qui in poi non ci serve

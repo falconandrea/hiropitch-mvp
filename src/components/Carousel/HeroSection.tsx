@@ -10,15 +10,19 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Container from './Container';
 import React, { useEffect } from 'react';
+import Image from 'next/image';
+import { Libre_Barcode_128 } from 'next/font/google';
 
 export default function HeroSection() {
   return (
     <div className='relative'>
-      <div className='absolute inset-0 z-0 bg-cover bg-top bg-no-repeat transition-[background] duration-500 after:absolute after:inset-0 after:z-10 after:backdrop-blur-xl after:[background:linear-gradient(0deg,rgb(255,255,255)_5%,rgba(0,0,0,0)_60%)_rgba(0,0,0,0.5)]' />
+      <div className='absolute inset-0 z-0' />
       <div className='relative z-10 -mt-[4.25rem] pt-[4.25rem]'>
+        {/*
         <Container>
           <Tabs />
         </Container>
+        */}
         <Container className='px-0 sm:px-4'>
           <Carousel />
         </Container>
@@ -30,14 +34,22 @@ export default function HeroSection() {
 function Carousel() {
   return (
     <div className='pt-8'>
+      <div className='mb-8 flex justify-between border-b'>
+        <ul className='font-poppins mt-auto flex gap-x-8 text-base font-semibold lg:text-2xl'>
+          <li>
+            <button className='border-b-2 border-slate-900 pb-4 text-slate-900'>
+              Featured
+            </button>
+          </li>
+        </ul>
+      </div>
       <Swiper
         id='carousel'
         modules={[Navigation, Autoplay, Mousewheel, Grid]}
         pagination={false}
         loop={true}
-        autoplay={{ delay: 1235000, disableOnInteraction: false }}
+        autoplay={false}
         mousewheel={{ invert: false, forceToAxis: true }}
-        navigation
         slidesPerView={4}
         grid={{
           rows: 1,
@@ -53,7 +65,10 @@ function Carousel() {
               className='group relative flex aspect-square w-full cursor-pointer overflow-hidden rounded-2xl bg-white/10'
               key={i}
             >
-              <img
+              <Image
+                height={300}
+                width={300}
+                alt=''
                 src={`/carousel/${item.image}`}
                 loading='lazy'
                 className='pointer-events-none absolute h-full w-full origin-center scale-[1.01] select-none object-cover object-center transition-transform duration-500 will-change-transform group-hover:scale-110'
@@ -61,7 +76,9 @@ function Carousel() {
               <div className='pointer-events-none relative mt-auto flex h-1/2 w-full select-none bg-gradient-to-t from-black/80 p-4 text-white'>
                 <div className='relative mt-auto'>
                   <h4 className='font-semibold'>{item.name}</h4>
-                  <span className='block text-sm'>Floor: {item.floor}</span>
+                  <span className='block text-sm'>
+                    To pay to be part: {item.floor} Sol
+                  </span>
                 </div>
               </div>
             </div>
@@ -75,30 +92,19 @@ function Carousel() {
 function Tabs() {
   return (
     <div className='pt-8 sm:px-0'>
-      <nav className='scroll-mask' id='main-tabs'>
-        <Swiper
-          spaceBetween={16}
-          slidesPerView={'auto'}
-          freeMode={true}
-          navigation
-          modules={[FreeMode, Navigation]}
-          tag='ul'
-        >
+      <nav id='main-tabs'>
+        <ul className='flex'>
           {MAIN_TABS.map((tab) => (
-            <SwiperSlide
-              key={tab}
-              tag='li'
-              className='rounded-lg first:bg-white/10 hover:bg-white/10'
-            >
+            <li key={tab} className='rounded-lg first:bg-green-400'>
               <a
                 href='#'
-                className='block w-fit px-4 py-2 text-sm font-semibold text-white md:text-base'
+                className='block px-4 py-2 text-sm font-semibold text-black md:text-base'
               >
                 {tab}
               </a>
-            </SwiperSlide>
+            </li>
           ))}
-        </Swiper>
+        </ul>
       </nav>
     </div>
   );

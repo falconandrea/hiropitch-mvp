@@ -26,7 +26,10 @@ export default function Dashboard() {
 
   return (
     <div>
-      {posts && posts.map((post: InterfacePost) => <ListPost post={post} />)}
+      {posts &&
+        posts.map((post: InterfacePost) => (
+          <ListPost key={post.id} post={post} />
+        ))}
     </div>
   );
 }
