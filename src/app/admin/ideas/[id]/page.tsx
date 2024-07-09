@@ -139,41 +139,41 @@ export default function IdeaDetailPage() {
       <div>
         {loading && <Loading />}
 
-        {!nda ? (
+        {!loading && idea && !nda && (
           <div className='flex flex-col border-2 p-4'>
             You have to accept NDA to see the idea content.
             <button className='mt-8 inline-block border-2' onClick={signNDA}>
               Accept NDA
             </button>
           </div>
-        ) : (
-          idea && (
-            <div>
-              <p>ID: {idea._id}</p>
-              <p>Title: {idea.title}</p>
-              <p>Description: {idea.description}</p>
-              <p>Category: {idea.category}</p>
-              <p>Contract Type: {idea.contractType}</p>
-              <p>Reference links:</p>
-              <ul className='pl-2'>
-                {idea.referenceLinks.map((link) => (
-                  <li key={link}>{link}</li>
-                ))}
-              </ul>
-              <p>
-                Creator:{' '}
-                {idea.creatorId.firstName + ' ' + idea.creatorId.lastName}
-              </p>
-              <p>Authors:</p>
-              <ul className='pl-2'>
-                {idea.authors.map((author) => (
-                  <li key={author._id}>
-                    {author.firstName + ' ' + author.lastName}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
+        )}
+
+        {!loading && idea && nda && (
+          <div>
+            <p>ID: {idea._id}</p>
+            <p>Title: {idea.title}</p>
+            <p>Description: {idea.description}</p>
+            <p>Category: {idea.category}</p>
+            <p>Contract Type: {idea.contractType}</p>
+            <p>Reference links:</p>
+            <ul className='pl-2'>
+              {idea.referenceLinks.map((link) => (
+                <li key={link}>{link}</li>
+              ))}
+            </ul>
+            <p>
+              Creator:{' '}
+              {idea.creatorId.firstName + ' ' + idea.creatorId.lastName}
+            </p>
+            <p>Authors:</p>
+            <ul className='pl-2'>
+              {idea.authors.map((author) => (
+                <li key={author._id}>
+                  {author.firstName + ' ' + author.lastName}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     </div>
