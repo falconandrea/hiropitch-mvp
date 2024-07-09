@@ -24,3 +24,16 @@ export async function getIdeas(filters: any, sortOptions: any, limit: number) {
     console.log(error);
   }
 }
+
+export async function getIdea(ideaId: string) {
+  try {
+    await connect();
+
+    const idea = await Idea.findOne({ _id: ideaId })
+      .populate('creatorId', 'firstName lastName')
+      .populate('authors', '_id firstName lastName');
+    return JSON.parse(JSON.stringify(idea));
+  } catch (error) {
+    console.log(error);
+  }
+}

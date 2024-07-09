@@ -1,5 +1,5 @@
 export interface InterfacePost {
-  id: number;
+  _id: string;
   content: string;
   ideaId: {
     _id: string;
@@ -16,4 +16,20 @@ export interface InterfacePost {
     tips: number;
     investors: number;
   };
+}
+
+export interface InferfaceIdea {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  contractType: string;
+  creatorId: {
+    firstName: string;
+    lastName: string;
+  };
+  authors: { firstName: string; lastName: string }[];
+  referenceLinks: string[];
+  file: object;
+  fileStructure: object;
 }
