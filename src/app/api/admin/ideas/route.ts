@@ -169,6 +169,13 @@ export async function POST(req: NextRequest) {
         hash,
         description: 'NFT collection created',
       });
+
+      // Insert smart contract NDA in database
+      const smartContractNDA = await createSmartContract({
+        ideaId: newIdea._id,
+        contractAddress: collectionAddress,
+        type: 'NDA',
+      });
     }
 
     return Response.json({ message: 'Idea created successfully', newIdea });
