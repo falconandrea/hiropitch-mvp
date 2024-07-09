@@ -6,7 +6,7 @@ import { NextRequest } from 'next/server';
 import { getUserByClerkID } from '@/lib/actions/user.actions';
 import { createNFTCollection } from '@/lib/solana/createNFTCollection';
 import { createSmartContract } from '@/lib/actions/smartcontract.actions';
-import { createTransaction } from '@/lib/actions/transaction.model';
+import { createTransaction } from '@/lib/actions/transaction.actions';
 
 export async function POST(req: NextRequest) {
   try {
