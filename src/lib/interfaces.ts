@@ -29,3 +29,10 @@ export interface InferfaceIdea {
   file: object;
   fileStructure: object;
 }
+
+export interface InterfaceSmartContract {
+  _id: string;
+  ideaId: string;
+  contractAddress: string;
+  type: string;
+}
