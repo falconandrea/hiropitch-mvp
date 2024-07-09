@@ -16,6 +16,27 @@ const PostSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    likes: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+    },
+    replies: [
+      {
+        author: {
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+          required: true,
+        },
+        text: {
+          type: String,
+          required: true,
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

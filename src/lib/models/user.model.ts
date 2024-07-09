@@ -27,6 +27,35 @@ const UserSchema = new Schema(
     lastName: {
       type: String,
     },
+    mobile: {
+      type: String,
+    },
+    about: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    vatNumber: {
+      type: String,
+    },
+    companyName: {
+      type: String,
+    },
+    socials: {
+      facebook: {
+        type: String,
+      },
+      twitter: {
+        type: String,
+      },
+      instagram: {
+        type: String,
+      },
+      linkedin: {
+        type: String,
+      },
+    },
   },
   {
     timestamps: true,
