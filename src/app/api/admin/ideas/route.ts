@@ -151,32 +151,30 @@ export async function POST(req: NextRequest) {
       parseInt(nftQty as string, 10)
     );
 
-    // Save data on db
-    if (result) {
-      const { collectionAddress, hash } = result;
-
-      // Insert smart contract data in database
-      const smartContract = await createSmartContract({
-        ideaId: newIdea._id,
-        contractAddress: collectionAddress,
-        type: 'NFT',
-      });
-
-      // Insert transaction data in database
-      const transaction = await createTransaction({
-        smartContractId: smartContract._id,
-        userId: _id,
-        hash,
-        description: 'NFT collection created',
-      });
-
-      // Insert smart contract NDA in database
-      const smartContractNDA = await createSmartContract({
-        ideaId: newIdea._id,
-        contractAddress: collectionAddress,
-        type: 'NDA',
-      });
+    if (!result) {
+      return Response.json(
+        { message: 'Failed to create NFT collection' },
+        { status: 500 }
+      );
     }
+
+    // Get NFT collection address and hash
+    const { collectionAddress, hash } = result;
+
+    // Insert smart contract data in database
+    const smartContract = await createSmartContract({
+      ideaId: newIdea._id,
+      contractAddress: collectionAddress,
+      type: 'NFT',
+    });
+
+    // Insert transaction data in database
+    const transaction = await createTransaction({
+      smartContractId: smartContract._id,
+      userId: _id,
+      hash,
+      description: 'NFT collection created',
+    });
 
     return Response.json({ message: 'Idea created successfully', newIdea });
   } catch (error) {
