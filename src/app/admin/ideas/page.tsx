@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { IPContractTypes, IPCategories } from '@/lib/constants';
 import MultipleTexts from '@/components/inputs/MultipleTexts';
 import FileUploader from '@/components/FileUploader';
-import Loading from '../loading';
+import Loading from '../../../components/Loading';
 import NumberInput from '@/components/inputs/NumberInput';
 
 export default function Ideas() {
