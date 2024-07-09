@@ -15,6 +15,10 @@ const SmartContractSchema = new Schema(
       type: String,
       required: true,
     },
+    signer: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 );
