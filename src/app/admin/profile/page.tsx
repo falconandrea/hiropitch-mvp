@@ -7,7 +7,7 @@ import SelectInput from '@/components/inputs/SelectInput';
 import Loading from '@/components/Loading';
 import FileUploader from '@/components/FileUploader';
 
-interface UserProfile {
+type UserProfile = {
   firstName: string;
   lastName: string;
   email: string;
@@ -20,7 +20,11 @@ interface UserProfile {
   linkedin: string;
   instagram: string;
   facebook: string;
-}
+  profileImage?: {
+    file: File;
+    validTypes: string[]; // Array di tipi di file validi (es. ['image/jpeg', 'image/png', 'image/jpg'])
+  };
+};
 
 export default function ProfilePage() {
   const [formData, setFormData] = useState<UserProfile>({
@@ -38,6 +42,8 @@ export default function ProfilePage() {
     facebook: ''
   });
   const [loading, setLoading] = useState(false);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
     // Fetch user profile data from API
@@ -64,16 +70,36 @@ export default function ProfilePage() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFileSelect = (file: File | null) => {
+    setSelectedFile(file);
+
+    // Esempio di validazione del tipo di file
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        setFileError('Only JPG, JPEG, and PNG files are allowed');
+      } else {
+        setFileError(null);
+      }
+    } else {
+      setFileError(null); // Resetta l'errore se nessun file è stato selezionato
+    }
+  };
+
   const handleSave = async () => {
     setLoading(true);
     try {
+      // Prepara i dati per l'invio al server, inclusa l'immagine se selezionata
+      const formDataToSend = { ...formData }
+
       const response = await fetch('/api/user/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formDataToSend)
       });
+
       if (response.ok) {
         console.log('Profile updated successfully');
       } else {
@@ -92,15 +118,15 @@ export default function ProfilePage() {
       <h1 className="mb-4 text-2xl font-bold">Settings</h1>
       <p className="mb-4">Here are your personal and company details</p>
 
-    <div className="mb-4">
-      <FileUploader
-        name="profileImage"
-        onFileSelect={(file) => console.log(file)}
-        label="Upload new image"
-      />
-      <button className="bg-red-500 text-white px-4 py-2 mt-2">Delete</button>
-  </div>
-
+      <div className="mb-4">
+        <FileUploader
+          name="profileImage"
+          onFileSelect={handleFileSelect}
+          label="Upload new image"
+        />
+        {fileError && <p className="text-red-500">{fileError}</p>}
+        <button className="bg-red-500 text-white px-4 py-2 mt-2">Delete</button>
+      </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
