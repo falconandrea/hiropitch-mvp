@@ -1,5 +1,6 @@
 import { CustomIcons } from '@/components/CustomIcons';
 import { InterfacePost } from '@/lib/interfaces';
+import Link from 'next/link';
 
 const shortText = (text: string, length: number) => {
   if (text.length <= length) {
@@ -25,7 +26,15 @@ export default function ListPost({ post }: { post: InterfacePost }) {
         <div className='mr-2 overflow-hidden rounded-full'>
           <div className='h-8 w-8 bg-red-500' />
         </div>
-        <h2 className='m-0 font-bold'>{post.ideaId.title}</h2>
+        <h2 className='m-0 font-bold'>
+          <Link
+            href={`/admin/ideas/${post.ideaId._id}`}
+            title=''
+            className='hover:underline'
+          >
+            {post.ideaId.title}
+          </Link>
+        </h2>
       </div>
       <p className='mt-2'>
         <i>
