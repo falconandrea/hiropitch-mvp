@@ -10,12 +10,8 @@ export interface InterfacePost {
     lastName: string;
   };
   createdAt: string;
-  counters: {
-    like: number;
-    comments: number;
-    tips: number;
-    investors: number;
-  };
+  likes: string[];
+  replies: object[];
 }
 
 export interface InferfaceIdea {

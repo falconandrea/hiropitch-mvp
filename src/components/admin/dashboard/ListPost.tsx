@@ -54,22 +54,22 @@ export default function ListPost({ post }: { post: InterfacePost }) {
       <div className='mt-4 flex justify-between border-b-2 pb-4'>
         <div className='flex space-x-4'>
           <div className='flex space-x-2'>
-            <span>{post.counters?.like || 0}</span>
+            <span>{post.likes.length || 0}</span>
             <CustomIcons.thumbsUp />
           </div>
           <div className='flex space-x-2'>
-            <span>{post.counters?.comments || 0}</span>
+            <span>{post.replies.length || 0}</span>
             <CustomIcons.messageCircle />
           </div>
         </div>
         <div className='flex space-x-8'>
           <div className='flex space-x-2'>
             <CustomIcons.sparkles />
-            <span>{post.counters?.tips || 0}</span>
+            <span>0</span>
           </div>
           <div className='flex space-x-2'>
             <CustomIcons.handshake />
-            <span>{post.counters?.investors || 0}</span>
+            <span>0</span>
           </div>
         </div>
       </div>
