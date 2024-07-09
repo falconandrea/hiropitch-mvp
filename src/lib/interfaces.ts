@@ -28,7 +28,7 @@ export interface InferfaceIdea {
     firstName: string;
     lastName: string;
   };
-  authors: { firstName: string; lastName: string }[];
+  authors: { _id: string; firstName: string; lastName: string }[];
   referenceLinks: string[];
   file: object;
   fileStructure: object;
