@@ -84,7 +84,7 @@ export const STATS_TABLE = [
 
 //da qui in poi non ci serve
 export const FOOTER_MARKETPLACE = [
-  'All NFTs',
+  'All',
   'Art',
   'Gaming',
   'Memberships',
