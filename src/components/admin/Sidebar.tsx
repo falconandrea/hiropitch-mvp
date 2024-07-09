@@ -40,12 +40,6 @@ export function Sidebar() {
               Market
             </Link>
             <Link
-              href='/admin/scribo'
-              className={`block rounded px-4 py-2 font-bold text-white hover:bg-gray-600 ${isActive('/admin/scribo')}`}
-            >
-              Scribo
-            </Link>
-            <Link
               href='/admin/faq'
               className={`block rounded px-4 py-2 font-bold text-white hover:bg-gray-600 ${isActive('/admin/faq')}`}
             >
