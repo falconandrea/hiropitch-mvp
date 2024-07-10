@@ -29,7 +29,6 @@ export default function IdeaDetailPage() {
 
   const getImageForIdea = (title: string) => {
     const imageEntry = CAROUSEL_ITEMS.find(entry => entry.name === title);
-    const imageID = CAROUSEL_ITEMS.find(entry => entry.name === title);
     return imageEntry ? imageEntry.image : '';
   };
 
