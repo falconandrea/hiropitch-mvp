@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useEffect, useRef, useState } from 'react';
 import Container from './Container';
 import Image from 'next/image';
-import { FOOTER_MARKETPLACE } from '../../app/admin/consts';
+import { MAIN_TABS } from '../../app/admin/consts';
 
 export default function Header() {
   const ref = useRef(null);
@@ -32,7 +32,7 @@ export default function Header() {
       <Container>
         <div className='flex h-[4.25rem] items-center gap-x-2 py-2.5'>
           <ul className='ml-6 gap-x-6 border-l border-slate-200 pl-6 font-semibold flex'>
-            {FOOTER_MARKETPLACE.map((item) => (
+            {MAIN_TABS.map((item) => (
               <li key={item} className='hover:bg-gray-200 px-2 py-1 rounded'>
                 <a href='#'>{item}</a>
               </li>

@@ -1,10 +1,8 @@
 export const MAIN_TABS = [
   'All',
   'Movies',
-  'Cartoons',
   'Tv Series',
   'Videogames',
-  'Art',
 ];
 
 export const CAROUSEL_ITEMS = [

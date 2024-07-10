@@ -6,7 +6,7 @@ import { InferfaceIdea } from '@/lib/interfaces';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CAROUSEL_ITEMS } from '../../consts'; // Assicurati che questo sia il percorso corretto
-import styles from './IdeaDetailPage.module.css'; // Importa il file CSS
+import styles from '../IdeaDetailPage.module.css'; // Importa il file CSS
 
 export default function IdeaDetailPage() {
   // Get id idea from url
