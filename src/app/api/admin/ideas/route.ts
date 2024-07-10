@@ -92,6 +92,8 @@ export async function POST(req: NextRequest) {
       creatorId: _id,
       file,
       fileStructure,
+      nftQty,
+      nftPrice,
     };
 
     // Create idea

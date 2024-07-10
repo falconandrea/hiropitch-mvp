@@ -28,6 +28,8 @@ export interface InferfaceIdea {
   referenceLinks: string[];
   file: object;
   fileStructure: object;
+  nftPrice: string;
+  nftQty: string;
 }
 
 export interface InterfaceSmartContract {
