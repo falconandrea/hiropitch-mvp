@@ -2,178 +2,83 @@
 
 import Loading from '@/components/Loading';
 import { getIdea } from '@/lib/actions/idea.actions';
-import { getSmartContracts } from '@/lib/actions/smartcontract.actions';
-import { getUserByClerkID } from '@/lib/actions/user.actions';
-import { InferfaceIdea, InterfaceSmartContract } from '@/lib/interfaces';
-import { useUser } from '@clerk/nextjs';
+import { InferfaceIdea } from '@/lib/interfaces';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { CAROUSEL_ITEMS } from '../../consts'; // Assicurati che questo sia il percorso corretto
+import styles from './IdeaDetailPage.module.css'; // Importa il file CSS
 
 export default function IdeaDetailPage() {
   // Get id idea from url
   const params = useParams<{ id: string }>();
-
-  const { user } = useUser();
-
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [idea, setIdea] = useState<InferfaceIdea>();
-  const [ideaContract, setIdeaContract] = useState<InterfaceSmartContract>();
-  const [nda, setNda] = useState<boolean>(false);
   const { id } = params;
 
   useEffect(() => {
-    if (user && user.id) {
-      const getUserInfo = async (clerkId: string) => {
-        try {
-          if (clerkId) {
-            const data = await getUserByClerkID(clerkId);
-            fetchIdea(id);
-            fetchIdeaContract(id, data._id);
-          }
-        } catch (error) {
-          console.error('Error fetching user info:', error);
-        }
-      };
+    const fetchIdea = async (id: string) => {
+      const data = await getIdea(id);
+      setIdea(data);
+      setLoading(false);
+      console.log(data);
+    };
 
-      const fetchIdea = async (id: string) => {
-        try {
-          if (id) {
-            const data = await getIdea(id);
-            setIdea(data);
-          }
-        } catch (error) {
-          console.error('Error fetching idea:', error);
-        }
-      };
+    setLoading(true);
+    fetchIdea(id);
+  }, []);
 
-      const fetchIdeaContract = async (ideaId: string, userId: string) => {
-        try {
-          if (ideaId) {
-            const data = await getSmartContracts(
-              { ideaId, type: 'NFT' },
-              {},
-              1
-            );
-            if (data.length > 0) setIdeaContract(data[0].contractAddress);
-            fetchSmartContract(ideaId, userId);
-            console.log('fetch idea contract');
-          }
-        } catch (error) {
-          console.error('Error fetching idea contract:', error);
-        }
-      };
-
-      const fetchSmartContract = async (ideaId: string, userId: string) => {
-        try {
-          if (ideaId) {
-            const data = await getSmartContracts(
-              { ideaId, type: 'NDA', signer: userId },
-              {},
-              1
-            );
-            setNda(data && data.length > 0);
-            setLoading(false);
-          }
-        } catch (error) {
-          console.error('Error fetching smart contract:', error);
-        }
-      };
-
-      setLoading(true);
-      getUserInfo(user.id);
-    }
-  }, [user]);
-
-  const signNDA = async () => {
-    if (idea && ideaContract) {
-      try {
-        setLoading(true);
-
-        // Fix authors list
-        let authorsData = '';
-        for (let i = 0; i < idea.authors.length; i++) {
-          authorsData +=
-            idea.authors[i].firstName +
-            ' ' +
-            idea.authors[i].lastName +
-            ' (' +
-            idea.authors[i]._id +
-            ')';
-          if (i !== idea.authors.length - 1) {
-            authorsData += ', ';
-          }
-        }
-
-        const response = await fetch('/api/admin/ideas/nda', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ideaId: idea._id,
-            ideaContract,
-            ideaTitle: idea.title,
-            authors: authorsData,
-          }),
-        });
-        if (response.ok) {
-          // Success handling
-          console.log('NDA signed successfully!');
-        } else {
-          // Error handling
-          console.error('NDA request submission failed.');
-        }
-      } catch (error) {
-        console.error('Error submitting nda request:', error);
-      } finally {
-        setLoading(false);
-
-        // Reload page
-        window.location.reload();
-      }
-    }
+  const getImageForIdea = (title: string) => {
+    const imageEntry = CAROUSEL_ITEMS.find(entry => entry.name === title);
+    const imageID = CAROUSEL_ITEMS.find(entry => entry.name === title);
+    return imageEntry ? imageEntry.image : '';
   };
 
   return (
-    <div>
-      <div>
+    <div className={styles.container}>
+      <div className={styles.content}>
         {loading && <Loading />}
-
-        {!loading && idea && !nda && (
-          <div className='flex flex-col border-2 p-4'>
-            You have to accept NDA to see the idea content.
-            <button className='mt-8 inline-block border-2' onClick={signNDA}>
-              Accept NDA
-            </button>
-          </div>
-        )}
-
-        {!loading && idea && nda && (
-          <div>
-            <p>ID: {idea._id}</p>
-            <p>Title: {idea.title}</p>
-            <p>Description: {idea.description}</p>
-            <p>Category: {idea.category}</p>
-            <p>Contract Type: {idea.contractType}</p>
-            <p>Reference links:</p>
-            <ul className='pl-2'>
+        {idea ? (
+          <div className={styles.ideaDetails}>
+            <div className={styles.titleContainer}>
+              <p className={styles.label}><strong>Title:</strong></p>
+              <p className={styles.value}>{idea.title}</p>
+            </div>
+            <div className={styles.imageContainer}>
+              <img
+                src={`/carousel/${getImageForIdea(idea.title)}`} // Utilizza la funzione per ottenere il percorso dell'immagine
+                className={styles.image}
+              />
+              <span className={styles.imageId}>ID: {idea._id}</span>
+            </div>
+            <p className={styles.label}><strong>Description:</strong></p>
+            <p className={styles.value}>{idea.description}</p>
+            <p className={styles.label}><strong>Category:</strong></p>
+            <p className={styles.value}>{idea.category}</p>
+            <p className={styles.label}><strong>Contract Type:</strong></p>
+            <p className={styles.value}>{idea.contractType}</p>
+            <p className={styles.label}><strong>Reference links:</strong></p>
+            <ul className={styles.linkList}>
               {idea.referenceLinks.map((link) => (
-                <li key={link}>{link}</li>
+                <li key={link} className={styles.linkItem}>
+                  <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
+                </li>
               ))}
             </ul>
-            <p>
-              Creator:{' '}
+            <p className={styles.label}><strong>Creator:</strong></p>
+            <p className={styles.value}>
               {idea.creatorId.firstName + ' ' + idea.creatorId.lastName}
             </p>
-            <p>Authors:</p>
-            <ul className='pl-2'>
+            <p className={styles.label}><strong>Authors:</strong></p>
+            <ul className={styles.authorList}>
               {idea.authors.map((author) => (
-                <li key={author._id}>
+                <li key={author._id} className={styles.authorItem}>
                   {author.firstName + ' ' + author.lastName}
                 </li>
               ))}
             </ul>
           </div>
+        ) : (
+          <p>Loading...</p>
         )}
       </div>
     </div>
