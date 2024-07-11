@@ -4,8 +4,10 @@ import Loading from '@/components/Loading';
 import { getIdea } from '@/lib/actions/idea.actions';
 import { getSmartContracts } from '@/lib/actions/smartcontract.actions';
 import { InferfaceIdea } from '@/lib/interfaces';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { IDEAS_IMAGES } from '@/app/admin/consts';
 
 export default function IdeaDetailPage() {
   // Get id idea from url
@@ -14,6 +16,7 @@ export default function IdeaDetailPage() {
   const [idea, setIdea] = useState<InferfaceIdea>();
   const [smartContract, setSmartContract] = useState<string>();
   const { id } = params;
+  const image = `/ideas/${IDEAS_IMAGES[id]}`;
 
   useEffect(() => {
     const fetchIdea = async (id: string) => {
@@ -44,88 +47,101 @@ export default function IdeaDetailPage() {
             <h2 className='w full mb-8 text-center font-sans text-xl'>
               {idea.description}
             </h2>
-            <div className='mb-4'>
-              <p>
-                <strong>ID:</strong>
-              </p>
-              <p>{idea._id}</p>
-            </div>
-            <div className='mb-4'>
-              <p>
-                <strong>Category:</strong>
-              </p>
-              <p>{idea.category}</p>
-            </div>
-            <div className='mb-4'>
-              <p>
-                <strong>Contract Type:</strong>
-              </p>
-              <p>{idea.contractType}</p>
-            </div>
-            <div className='mb-4'>
-              <p>
-                <strong>Reference links:</strong>
-              </p>
-              <ul className='mb-0'>
-                {idea.referenceLinks.map((link) => (
-                  <li key={link}>
+
+            <div className='xl:flex xl:gap-x-4'>
+              {/* LEFT SECTION */}
+              <div className='w-full xl:w-1/2'>
+                <div className='mb-4'>
+                  <p>
+                    <strong>ID:</strong>
+                  </p>
+                  <p>{idea._id}</p>
+                </div>
+                <div className='mb-4'>
+                  <p>
+                    <strong>Category:</strong>
+                  </p>
+                  <p>{idea.category}</p>
+                </div>
+                <div className='mb-4'>
+                  <p>
+                    <strong>Contract Type:</strong>
+                  </p>
+                  <p>{idea.contractType}</p>
+                </div>
+                <div className='mb-4'>
+                  <p>
+                    <strong>Reference links:</strong>
+                  </p>
+                  <ul className='mb-0'>
+                    {idea.referenceLinks.map((link) => (
+                      <li key={link}>
+                        <a
+                          href={link}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='underline'
+                        >
+                          {link}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className='mb-4'>
+                  <p>
+                    <strong>Creator:</strong>
+                  </p>
+                  <p>
+                    {idea.creatorId.firstName + ' ' + idea.creatorId.lastName}
+                  </p>
+                </div>
+                <div className='mb-4'>
+                  <p>
+                    <strong>Authors:</strong>
+                  </p>
+                  <ul>
+                    {idea.authors.map((author) => (
+                      <li key={author._id}>
+                        {author.firstName + ' ' + author.lastName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className='mb-4'>
+                  <p>
+                    <strong>Contract Address NFT Collection:</strong>
+                  </p>
+                  <p>
                     <a
-                      href={link}
+                      href='https://explorer.solana.com/address/DgVCwoPonMvQzcsWwN8SzJfh7f97nZEmArPiCpmdLdRs?cluster=devnet'
+                      title=''
                       target='_blank'
                       rel='noopener noreferrer'
                       className='underline'
                     >
-                      {link}
+                      {smartContract}
                     </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className='mb-4'>
-              <p>
-                <strong>Creator:</strong>
-              </p>
-              <p>{idea.creatorId.firstName + ' ' + idea.creatorId.lastName}</p>
-            </div>
-            <div className='mb-4'>
-              <p>
-                <strong>Authors:</strong>
-              </p>
-              <ul>
-                {idea.authors.map((author) => (
-                  <li key={author._id}>
-                    {author.firstName + ' ' + author.lastName}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className='mb-4'>
-              <p>
-                <strong>Contract Address NFT Collection:</strong>
-              </p>
-              <p>
-                <a
-                  href='https://explorer.solana.com/address/DgVCwoPonMvQzcsWwN8SzJfh7f97nZEmArPiCpmdLdRs?cluster=devnet'
-                  title=''
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='underline'
-                >
-                  {smartContract}
-                </a>
-              </p>
-            </div>
-            <div className='mb-4'>
-              <p>
-                <strong>N. NFTs:</strong>
-              </p>
-              <p>{idea.nftQty}</p>
-            </div>
-            <div className='mb-4'>
-              <p>
-                <strong>Price single NFT:</strong>
-              </p>
-              <p>{idea.nftPrice} Sol</p>
+                  </p>
+                </div>
+                <div className='mb-4'>
+                  <p>
+                    <strong>N. NFTs:</strong>
+                  </p>
+                  <p>{idea.nftQty}</p>
+                </div>
+                <div className='mb-4'>
+                  <p>
+                    <strong>Price single NFT:</strong>
+                  </p>
+                  <p>{idea.nftPrice} Sol</p>
+                </div>
+              </div>
+
+              {/* RIGHT SECTION */}
+              <div className='w-full xl:w-1/2'>
+                <Image alt='Image Idea' width={600} height={300} src={image} />
+              </div>
             </div>
           </div>
         )}

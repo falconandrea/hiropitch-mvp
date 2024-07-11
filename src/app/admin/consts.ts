@@ -1,9 +1,4 @@
-export const MAIN_TABS = [
-  'All',
-  'Movies',
-  'Tv Series',
-  'Videogames',
-];
+export const MAIN_TABS = ['All', 'Movies', 'Tv Series', 'Videogames'];
 
 export const CAROUSEL_ITEMS = [
   { image: '1a.png', name: 'The new novel of Mark', floor: 12 },
@@ -123,3 +118,7 @@ export const FOOTER_LEARN = [
   'What is web3?',
   'How to stay protected in web3',
 ];
+
+export const IDEAS_IMAGES: { [key: string]: string } = {
+  '668efd8c6c6701c85b93613e': '668efd8c6c6701c85b93613e.jpg',
+};
