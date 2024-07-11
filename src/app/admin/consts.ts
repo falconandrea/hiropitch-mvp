@@ -121,4 +121,5 @@ export const FOOTER_LEARN = [
 
 export const IDEAS_IMAGES: { [key: string]: string } = {
   '668efd8c6c6701c85b93613e': '668efd8c6c6701c85b93613e.jpg',
+  '6690375cac165eac79162f5c': '6690375cac165eac79162f5c.jpeg',
 };
