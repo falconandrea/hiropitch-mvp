@@ -52,12 +52,6 @@ export default function IdeaDetailPage() {
             </div>
             <div className='mb-4'>
               <p>
-                <strong>Description:</strong>
-              </p>
-              <div>{idea.description}</div>
-            </div>
-            <div className='mb-4'>
-              <p>
                 <strong>Category:</strong>
               </p>
               <p>{idea.category}</p>
