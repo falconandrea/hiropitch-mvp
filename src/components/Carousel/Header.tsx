@@ -1,9 +1,7 @@
-"use client";
+// Header.tsx
 
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useEffect, useRef, useState } from 'react';
 import Container from './Container';
-import Image from 'next/image';
 import { MAIN_TABS } from '../../app/admin/consts';
 
 export default function Header() {
@@ -24,29 +22,38 @@ export default function Header() {
     };
   }, []);
 
+  const handleItemClick = (index: number) => {
+    if (index === 0) {
+      // Scroll to top of the page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Scroll to corresponding section
+      const id = MAIN_TABS[index].toLowerCase().replace(/\s/g, '-');
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <header
-      className='sticky -top-[0.1px] z-50 border-b bg-white text-black transition-colors duration-150'
+      className='sticky top-0 z-50 border-b bg-white text-black transition-colors duration-150'
       ref={ref}
     >
       <Container>
-        <div className='flex h-[4.25rem] items-center gap-x-2 py-2.5'>
-          <ul className='ml-6 gap-x-6 border-l border-slate-200 pl-6 font-semibold flex'>
-            {MAIN_TABS.map((item) => (
-              <li key={item} className='hover:bg-gray-200 px-2 py-1 rounded'>
+        <div className='flex h-16 items-center justify-center gap-x-2 py-2.5'>
+          <ul className='gap-x-6 font-semibold flex'>
+            {MAIN_TABS.map((item, index) => (
+              <li
+                key={item}
+                className='hover:bg-gray-200 px-2 py-1 rounded cursor-pointer'
+                onClick={() => handleItemClick(index)}
+              >
                 <a href='#'>{item}</a>
               </li>
             ))}
           </ul>
-          <div className='relative ml-6 h-full flex-1'>
-            <MagnifyingGlassIcon className='absolute inset-y-0 left-3 z-10 my-auto h-5 w-5 stroke-2 text-slate-500' />
-            <input
-              name='Search'
-              type='text'
-              className='h-full w-full rounded-xl border border-slate-200 bg-white/10 pl-10 hover:bg-white/20 focus:border-slate-200 focus:ring-0 placeholder:text-slate-500'
-              placeholder='Search items, collections, and accounts'
-            />
-          </div>
         </div>
       </Container>
     </header>
