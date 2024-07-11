@@ -12,6 +12,9 @@ import FileUploader from '@/components/FileUploader';
 import Loading from '../../../components/Loading';
 import NumberInput from '@/components/inputs/NumberInput';
 
+import { useUser } from '@clerk/nextjs';
+
+
 export default function Ideas() {
   const [formData, setFormData] = useState<{
     title: string;

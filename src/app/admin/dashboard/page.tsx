@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { InterfacePost } from '@/lib/interfaces';
 import Loading from '@/components/Loading';
 
+
 export default function Dashboard() {
   // Get Posts from db
   const [posts, setPosts] = useState<InterfacePost[]>([]);

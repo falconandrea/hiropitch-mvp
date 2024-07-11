@@ -19,12 +19,22 @@ const formatDate = (date: string) => {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
 
+const getInitials = (firstName: string, lastName: string) => {
+  const firstInitial = firstName ? firstName.charAt(0) : '';
+  const lastInitial = lastName ? lastName.charAt(0) : '';
+  return `${firstInitial}${lastInitial}`;
+};
+
 export default function ListPost({ post }: { post: InterfacePost }) {
+  const initials = getInitials(post.userId.firstName, post.userId.lastName);
+
   return (
     <div className='mb-10'>
       <div className='flex items-center'>
         <div className='mr-2 overflow-hidden rounded-full'>
-          <div className='h-8 w-8 bg-red-500' />
+          <div className='h-8 w-8 bg-red-500 text-white flex items-center justify-center'>
+            {initials}
+          </div>
         </div>
         <h2 className='m-0 font-bold'>
           <Link
