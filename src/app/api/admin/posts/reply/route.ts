@@ -35,8 +35,6 @@ export async function POST(req: NextRequest) {
       date: new Date(),
     };
 
-    console.log('reply', reply);
-
     // Add reply
     const postUpdated = await addReply(postId as string, reply);
 
