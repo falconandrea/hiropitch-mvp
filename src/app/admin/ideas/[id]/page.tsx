@@ -344,7 +344,7 @@ export default function IdeaDetailPage() {
                             ))}
                           </div>
                         )}
-                        {currentUserId && currentUserId != post.userId._id && (
+                        {currentUserId && (
                           <form className='mt-4' method='POST'>
                             <TextareaInput
                               label='Message'
