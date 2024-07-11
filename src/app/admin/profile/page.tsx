@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import TextInput from '@/components/inputs/TextInput';
 import TextareaInput from '@/components/inputs/TextareaInput';
-import SelectInput from '@/components/inputs/SelectInput';
 import Loading from '@/components/Loading';
 import FileUploader from '@/components/FileUploader';
 
@@ -20,9 +19,11 @@ type UserProfile = {
   linkedin: string;
   instagram: string;
   facebook: string;
+  birthdate: string;
+  fiscalCode: string;
   profileImage?: {
     file: File;
-    validTypes: string[]; // Array di tipi di file validi (es. ['image/jpeg', 'image/png', 'image/jpg'])
+    validTypes: string[];
   };
 };
 
@@ -39,14 +40,15 @@ export default function ProfilePage() {
     companyName: '',
     linkedin: '',
     instagram: '',
-    facebook: ''
+    facebook: '',
+    birthdate: '',
+    fiscalCode: ''
   });
   const [loading, setLoading] = useState(false);
   const [fileError, setFileError] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
-    // Fetch user profile data from API
     const fetchUserProfile = async () => {
       setLoading(true);
       try {
@@ -64,7 +66,7 @@ export default function ProfilePage() {
   }, []);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -73,7 +75,6 @@ export default function ProfilePage() {
   const handleFileSelect = (file: File | null) => {
     setSelectedFile(file);
 
-    // Esempio di validazione del tipo di file
     if (file) {
       const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
       if (!allowedTypes.includes(file.type)) {
@@ -82,15 +83,14 @@ export default function ProfilePage() {
         setFileError(null);
       }
     } else {
-      setFileError(null); // Resetta l'errore se nessun file è stato selezionato
+      setFileError(null);
     }
   };
 
   const handleSave = async () => {
     setLoading(true);
     try {
-      // Prepara i dati per l'invio al server, inclusa l'immagine se selezionata
-      const formDataToSend = { ...formData }
+      const formDataToSend = { ...formData };
 
       const response = await fetch('/api/user/profile', {
         method: 'PUT',
@@ -113,12 +113,12 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="max-w-4xl mx-auto p-4">
       {loading && <Loading />}
       <h1 className="mb-4 text-2xl font-bold">Settings</h1>
       <p className="mb-4">Here are your personal and company details</p>
 
-      <div className="mb-4">
+      <div className="mb-8">
         <FileUploader
           name="profileImage"
           onFileSelect={handleFileSelect}
@@ -128,13 +128,9 @@ export default function ProfilePage() {
         <button className="bg-red-500 text-white px-4 py-2 mt-2">Delete</button>
       </div>
 
+      <h2 className="text-xl font-bold mb-4">Personal details</h2>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <h2 className="text-xl font-bold">Personal details</h2>
-          <p className="mb-4">
-            Complete these questions to start requesting IPs and other manuscripts from our pool of talents.
-          </p>
-
           <TextInput
             label="First name"
             name="firstName"
@@ -143,30 +139,8 @@ export default function ProfilePage() {
             placeholder="Enter your first name"
             required={true}
           />
-          <TextInput
-            label="Last name"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleInputChange}
-            placeholder="Enter your last name"
-            required={true}
-          />
-          <TextInput
-            label="Email address"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            placeholder="Enter your email address"
-            required={true}
-          />
-          <TextInput
-            label="Username"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-            placeholder="Enter your username"
-            required={true}
-          />
+        </div>
+        <div>
           <TextInput
             label="Mobile number"
             name="mobileNumber"
@@ -175,6 +149,69 @@ export default function ProfilePage() {
             placeholder="Enter your mobile number"
             required={true}
           />
+        </div>
+        <div>
+          <TextInput
+            label="Last name"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleInputChange}
+            placeholder="Enter your last name"
+            required={true}
+          />
+        </div>
+        <div>
+          <TextInput
+            label="Email address"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder="Enter your email address"
+            required={true}
+          />
+        </div>
+        <div>
+          <TextInput
+            label="Date of Birth"
+            name="birthdate"
+            type="date"
+            value={formData.birthdate}
+            onChange={handleInputChange}
+            placeholder="Enter your address"
+            required={true}
+          />
+        </div>
+        <div>
+          <TextInput
+            label="Fiscal Code"
+            name="fiscalCode"
+            value={formData.fiscalCode}
+            onChange={handleInputChange}
+            placeholder="Enter your fiscal code"
+            required={true}
+          />
+        </div>
+        <div>
+          <TextInput
+            label="Username"
+            name="username"
+            value={formData.username}
+            onChange={handleInputChange}
+            placeholder="Enter your username"
+            required={true}
+          />
+        </div>
+        <div>
+          <TextInput
+            label="Address"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
+            placeholder="Enter your address"
+            required={true}
+          />
+        </div>
+        <div className="col-span-2">
           <TextareaInput
             label="About"
             name="about"
@@ -183,66 +220,56 @@ export default function ProfilePage() {
             placeholder="Tell us about yourself"
             required={true}
           />
-          <SelectInput
-            label="Address"
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
-            options={[
-              { value: 'Address 1', label: 'Address 1' },
-              { value: 'Address 2', label: 'Address 2' }
-            ]}
-            required={true}
-          />
-        </div>
-
-        <div>
-          <TextInput
-            label="VAT Number"
-            name="vatNumber"
-            value={formData.vatNumber}
-            onChange={handleInputChange}
-            placeholder="Enter your VAT number"
-            required={true}
-          />
-          <TextInput
-            label="Company Name"
-            name="companyName"
-            value={formData.companyName}
-            onChange={handleInputChange}
-            placeholder="Enter your company name"
-            required={true}
-          />
-          <TextInput
-            label="LinkedIn"
-            name="linkedin"
-            value={formData.linkedin}
-            onChange={handleInputChange}
-            placeholder="Enter your LinkedIn profile link"
-            required={true}
-          />
-          <TextInput
-            label="Instagram"
-            name="instagram"
-            value={formData.instagram}
-            onChange={handleInputChange}
-            placeholder="Enter your Instagram profile link"
-            required={true}
-          />
-          <TextInput
-            label="Facebook"
-            name="facebook"
-            value={formData.facebook}
-            onChange={handleInputChange}
-            placeholder="Enter your Facebook profile link"
-            required={true}
-          />
         </div>
       </div>
 
-      <div className="mt-4">
+      <h2 className="text-xl font-bold mt-8 mb-4">Company details</h2>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <TextInput
+          label="VAT Number"
+          name="vatNumber"
+          value={formData.vatNumber}
+          onChange={handleInputChange}
+          placeholder="Enter your VAT number"
+          required={true}
+        />
+        <TextInput
+          label="Company Name"
+          name="companyName"
+          value={formData.companyName}
+          onChange={handleInputChange}
+          placeholder="Enter your company name"
+          required={true}
+        />
+        <TextInput
+          label="LinkedIn"
+          name="linkedin"
+          value={formData.linkedin}
+          onChange={handleInputChange}
+          placeholder="Enter your LinkedIn profile link"
+          required={true}
+        />
+        <TextInput
+          label="Instagram"
+          name="instagram"
+          value={formData.instagram}
+          onChange={handleInputChange}
+          placeholder="Enter your Instagram profile link"
+          required={true}
+        />
+        <TextInput
+          label="Facebook"
+          name="facebook"
+          value={formData.facebook}
+          onChange={handleInputChange}
+          placeholder="Enter your Facebook profile link"
+          required={true}
+        />
+      </div>
+
+      <div className="mt-8 flex justify-center">
         <button
-          className="bg-orange-500 text-white px-4 py-2"
+          className="bg-orange-500 text-white px-6 py-3 text-lg"
           onClick={handleSave}
         >
           Save
