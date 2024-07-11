@@ -1,5 +1,6 @@
 import { CustomIcons } from '@/components/CustomIcons';
 import { InterfacePost } from '@/lib/interfaces';
+import { formatDate } from '@/lib/utils';
 import Link from 'next/link';
 
 const shortText = (text: string, length: number) => {
@@ -7,16 +8,6 @@ const shortText = (text: string, length: number) => {
     return text;
   }
   return text.slice(0, length) + '...';
-};
-
-const formatDate = (date: string) => {
-  const d = new Date(date);
-  const day = ('0' + d.getDate()).slice(-2);
-  const month = ('0' + (d.getMonth() + 1)).slice(-2);
-  const year = d.getFullYear();
-  const hours = ('0' + d.getHours()).slice(-2);
-  const minutes = ('0' + d.getMinutes()).slice(-2);
-  return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
 
 const getInitials = (firstName: string, lastName: string) => {
@@ -32,7 +23,7 @@ export default function ListPost({ post }: { post: InterfacePost }) {
     <div className='mb-10'>
       <div className='flex items-center'>
         <div className='mr-2 overflow-hidden rounded-full'>
-          <div className='h-8 w-8 bg-red-500 text-white flex items-center justify-center'>
+          <div className='flex h-8 w-8 items-center justify-center bg-red-500 text-white'>
             {initials}
           </div>
         </div>
@@ -73,13 +64,25 @@ export default function ListPost({ post }: { post: InterfacePost }) {
           </div>
         </div>
         <div className='flex space-x-8'>
-          <div className='flex space-x-2'>
-            <CustomIcons.sparkles />
-            <span>0</span>
+          <div className=''>
+            <Link
+              href={`/admin/ideas/${post.ideaId._id}`}
+              title=''
+              className='flex space-x-2'
+            >
+              <CustomIcons.sparkles />
+              <span>0</span>
+            </Link>
           </div>
-          <div className='flex space-x-2'>
-            <CustomIcons.handshake />
-            <span>0</span>
+          <div className=''>
+            <Link
+              href={`/admin/ideas/${post.ideaId._id}`}
+              title=''
+              className='flex space-x-2'
+            >
+              <CustomIcons.handshake />
+              <span>0</span>
+            </Link>
           </div>
         </div>
       </div>

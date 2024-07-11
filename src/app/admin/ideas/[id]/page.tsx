@@ -3,13 +3,16 @@
 import Loading from '@/components/Loading';
 import { getIdea } from '@/lib/actions/idea.actions';
 import { getSmartContracts } from '@/lib/actions/smartcontract.actions';
-import { InferfaceIdea } from '@/lib/interfaces';
+import { InferfaceIdea, InterfacePost } from '@/lib/interfaces';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IDEAS_IMAGES } from '@/app/admin/consts';
 import { useUser } from '@clerk/nextjs';
 import { getUserByClerkID } from '@/lib/actions/user.actions';
+import { getPosts } from '@/lib/actions/post.actions';
+import { formatDate } from '@/lib/utils';
+import TextareaInput from '@/components/inputs/TextareaInput';
 
 export default function IdeaDetailPage() {
   // Get id idea from url
@@ -18,9 +21,11 @@ export default function IdeaDetailPage() {
   const [idea, setIdea] = useState<InferfaceIdea>();
   const { id } = params;
   const { user } = useUser();
+  const [currentUserId, setCurrentUserId] = useState<string>();
   const [nda, setNda] = useState<boolean>(false);
-  const image = `/ideas/${IDEAS_IMAGES[id]}`;
   const [ideaContract, setIdeaContract] = useState<string>();
+  const [posts, setPosts] = useState<InterfacePost[]>();
+  const [reply, setReply] = useState<string>('');
 
   useEffect(() => {
     if (user && user.id) {
@@ -29,10 +34,12 @@ export default function IdeaDetailPage() {
           if (clerkId) {
             const data = await getUserByClerkID(clerkId);
             fetchIdea(id);
+            setCurrentUserId(data._id);
             fetchIdeaContract(id, data._id);
           }
         } catch (error) {
           console.error('Error fetching user info:', error);
+          setLoading(false);
         }
       };
 
@@ -44,6 +51,7 @@ export default function IdeaDetailPage() {
           }
         } catch (error) {
           console.error('Error fetching idea:', error);
+          setLoading(false);
         }
       };
 
@@ -61,6 +69,7 @@ export default function IdeaDetailPage() {
           }
         } catch (error) {
           console.error('Error fetching idea contract:', error);
+          setLoading(false);
         }
       };
 
@@ -73,10 +82,22 @@ export default function IdeaDetailPage() {
               1
             );
             setNda(data && data.length > 0);
-            setLoading(false);
+            fetchPosts(ideaId);
           }
         } catch (error) {
           console.error('Error fetching smart contract:', error);
+          setLoading(false);
+        }
+      };
+
+      const fetchPosts = async (ideaId: string) => {
+        try {
+          const data = await getPosts({ ideaId }, { createdAt: -1 }, 0);
+          setPosts(data);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching comments:', error);
+          setLoading(false);
         }
       };
 
@@ -84,6 +105,40 @@ export default function IdeaDetailPage() {
       getUserInfo(user.id);
     }
   }, [user]);
+
+  const onChangeReply = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReply(event.target.value);
+  };
+
+  const submitReply = async (e: React.FormEvent, postId: string) => {
+    e.preventDefault();
+
+    if (reply && idea) {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/admin/posts/reply', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ideaId: idea._id,
+            reply,
+            postId,
+          }),
+        });
+        if (response.ok) {
+          // Reload page
+          window.location.reload();
+        } else {
+          // Error handling
+          console.error('Reply submission failed.', await response.text());
+        }
+      } catch (error) {
+        console.error('Error submitting reply:', error);
+      }
+    }
+  };
 
   const signNDA = async () => {
     if (idea && ideaContract) {
@@ -247,7 +302,76 @@ export default function IdeaDetailPage() {
 
             {/* RIGHT SECTION */}
             <div className='w-full xl:w-1/2'>
-              <Image alt='Image Idea' width={600} height={300} src={image} />
+              {IDEAS_IMAGES[id] && (
+                <Image
+                  alt='Image Idea'
+                  width={600}
+                  height={300}
+                  src={`/ideas/${IDEAS_IMAGES[id]}`}
+                />
+              )}
+
+              {/* List of comments */}
+              {posts && (
+                <div className='mt-4'>
+                  <h3 className='mb-2 text-xl font-bold'>Comments</h3>
+                  <ul>
+                    {posts.map((post) => (
+                      <li key={post._id} className='bg-gray-200 px-2 py-1'>
+                        <p>
+                          <i>
+                            [{post.userId.firstName} {post.userId.lastName} -{' '}
+                            {formatDate(post.createdAt)}]
+                            <br />
+                          </i>
+                        </p>
+                        <div>{post.content}</div>
+                        {post.replies.length > 0 && (
+                          <div>
+                            {post.replies.map((reply) => (
+                              <p
+                                key={reply._id}
+                                className='mt-2 bg-slate-400 px-2 py-1'
+                              >
+                                <i>
+                                  [{reply.author.firstName}{' '}
+                                  {reply.author.lastName} -{' '}
+                                  {formatDate(reply.date)}]
+                                  <br />
+                                </i>
+                                {reply.text}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                        {currentUserId && currentUserId != post.userId._id && (
+                          <form className='mt-4' method='POST'>
+                            <TextareaInput
+                              label='Message'
+                              name='reply'
+                              placeholder='Your message'
+                              value={reply}
+                              onChange={onChangeReply}
+                            />
+                            <div className='flex justify-end'>
+                              <button
+                                type='submit'
+                                disabled={loading}
+                                onClick={(event) =>
+                                  submitReply(event, post._id)
+                                }
+                                className='mb-2 inline-block rounded-md border-2 border-black px-2 py-1 hover:bg-black hover:text-white'
+                              >
+                                Reply
+                              </button>
+                            </div>
+                          </form>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>

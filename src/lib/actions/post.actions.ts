@@ -32,15 +32,31 @@ export async function getPosts(filters: any, sortOptions: any, limit: number) {
 
     const posts = await Post.find(filters)
       .sort(sortOptions)
-      .limit(limit)
+      .limit(limit > 0 ? limit : 999999)
       .populate('ideaId', '_id title')
       .populate('userId', '_id firstName lastName')
       .populate({
         path: 'createdAt',
         select: 'createdAt',
-      });
+      })
+      .populate('replies.author', '_id firstName lastName');
 
     return JSON.parse(JSON.stringify(posts));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function addReply(postId: string, reply: any) {
+  try {
+    await connect();
+
+    const post = await Post.findById(postId);
+    post.replies.push(reply);
+
+    await post.save();
+
+    return JSON.parse(JSON.stringify(post));
   } catch (error) {
     console.log(error);
   }

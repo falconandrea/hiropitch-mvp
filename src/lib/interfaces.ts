@@ -6,12 +6,18 @@ export interface InterfacePost {
     title: string;
   };
   userId: {
+    _id: string;
     firstName: string;
     lastName: string;
   };
   createdAt: string;
   likes: string[];
-  replies: object[];
+  replies: {
+    _id: string;
+    text: string;
+    author: { _id: string; firstName: string; lastName: string };
+    date: string;
+  }[];
 }
 
 export interface InferfaceIdea {
