@@ -3,7 +3,7 @@
 import Loading from '@/components/Loading';
 import { getIdea } from '@/lib/actions/idea.actions';
 import { getSmartContracts } from '@/lib/actions/smartcontract.actions';
-import { InferfaceIdea, InterfaceSmartContract } from '@/lib/interfaces';
+import { InferfaceIdea } from '@/lib/interfaces';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
