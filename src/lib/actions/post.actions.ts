@@ -61,3 +61,23 @@ export async function addReply(postId: string, reply: any) {
     console.log(error);
   }
 }
+
+export async function toggleLike(postId: string, userId: string) {
+  try {
+    await connect();
+    const post = await Post.findById(postId);
+
+    if (post.likes.includes(userId)) {
+      post.likes = post.likes.filter(
+        (like: string) => like.toString() !== userId
+      );
+    } else {
+      post.likes.push(userId);
+    }
+    await post.save();
+
+    return JSON.parse(JSON.stringify(post));
+  } catch (error) {
+    console.log(error);
+  }
+}

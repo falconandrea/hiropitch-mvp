@@ -3,6 +3,7 @@ import { InterfacePost } from '@/lib/interfaces';
 import { formatDate } from '@/lib/utils';
 import Link from 'next/link';
 import { useState } from 'react';
+import { toggleLike } from '@/lib/actions/post.actions';
 
 const shortText = (text: string, length: number, isExpanded: boolean) => {
   if (isExpanded || text.length <= length) {
@@ -17,8 +18,20 @@ const getInitials = (firstName: string, lastName: string) => {
   return `${firstInitial}${lastInitial}`;
 };
 
-export default function ListPost({ post }: { post: InterfacePost }) {
+export default function ListPost({
+  post,
+  currentUser,
+}: {
+  post: InterfacePost;
+  currentUser: string;
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleLikeValue = async (postId: string) => {
+    await toggleLike(postId, currentUser).then(() => {
+      window.location.reload();
+    });
+  };
 
   const handleReadMore = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -62,13 +75,26 @@ export default function ListPost({ post }: { post: InterfacePost }) {
       </p>
       <div className='mt-4 flex justify-between border-b-2 pb-4'>
         <div className='flex space-x-4'>
-          <div className='flex space-x-2'>
+          <div
+            className='flex cursor-pointer space-x-2'
+            onClick={() => toggleLikeValue(post._id)}
+          >
             <span>{post.likes.length || 0}</span>
-            <CustomIcons.thumbsUp />
+            {post.likes.includes(currentUser) ? (
+              <CustomIcons.thumbsUp color='#ef4444' fill='#ef4444' />
+            ) : (
+              <CustomIcons.thumbsUp />
+            )}
           </div>
           <div className='flex space-x-2'>
-            <span>{post.replies.length || 0}</span>
-            <CustomIcons.messageCircle />
+            <Link
+              href={`/admin/ideas/${post.ideaId._id}`}
+              title=''
+              className='flex space-x-2'
+            >
+              <span>{post.replies.length || 0}</span>
+              <CustomIcons.messageCircle />
+            </Link>
           </div>
         </div>
         <div className='flex space-x-8'>
