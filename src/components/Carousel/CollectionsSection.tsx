@@ -14,14 +14,19 @@ const commonBiggerScreen = {
   slidesOffsetAfter: 0,
 };
 
-//PARTE DELLA PAGINA DEDICATO A SEZIONI SPECIFICHE SOTTO LA TABELLA
-export default function CollectionsSection({ title }: { title: string }) {
+// PARTE DELLA PAGINA DEDICATA A SEZIONI SPECIFICHE SOTTO LA TABELLA
+type CollectionsSectionProps = {
+  title: string;
+  id?: string;
+};
+
+export default function CollectionsSection({ title, id }: CollectionsSectionProps) {
   const shuffledData = useMemo(() => {
     return STATS_TABLE.sort(() => 0.5 - Math.random()).slice(0, 4);
   }, []);
 
   return (
-    <Container className='pt-16'>
+    <Container className='pt-16' id={id}>
       <div className='flex items-center justify-between'>
         <span className='font-poppins text-lg font-semibold text-slate-900 md:text-2xl'>
           {title}

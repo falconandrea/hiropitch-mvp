@@ -13,9 +13,13 @@ import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { Libre_Barcode_128 } from 'next/font/google';
 
-export default function HeroSection() {
+type HeroSectionProps = {
+  id?: string;
+};
+
+export default function HeroSection({ id }: HeroSectionProps) {
   return (
-    <div className='relative'>
+    <div className='relative' id={id}>
       <div className='absolute inset-0 z-0' />
       <div className='relative z-10 -mt-[4.25rem] pt-[4.25rem]'>
         {/*

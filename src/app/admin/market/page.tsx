@@ -14,7 +14,7 @@ import { MAIN_TABS } from '../consts';
 const createCollectionSections = () => {
   // Parti dall'indice 1 di MAIN_TABS e crea una sezione per ogni elemento
   const collectionSections = MAIN_TABS.slice(1).map((item, index) => (
-    <CollectionsSection key={index} title={item} />
+    <CollectionsSection key={index} title={item} id={item.toLowerCase().replace(/\s/g, '-')} />
   ));
 
   return collectionSections;
@@ -23,9 +23,9 @@ const createCollectionSections = () => {
 export default function Market() {
   return (
     <div className='max-w-2lg mx-auto'>
-      <Header/>
-      <HeroSection />
-      <StatsTable />
+      <Header />
+      <HeroSection id="hero-section" />
+      <StatsTable/>
       {createCollectionSections()}
     </div>
   );
