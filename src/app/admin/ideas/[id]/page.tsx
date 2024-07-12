@@ -197,9 +197,16 @@ export default function IdeaDetailPage() {
       {!loading && idea && !nda && (
         <div className='flex flex-col border-2 p-4'>
           You have to accept NDA to see the idea content.
-          <button className='mt-8 inline-block border-2' onClick={signNDA}>
-            Accept NDA
-          </button>
+          {ideaContract ? (
+            <button className='mt-8 inline-block border-2' onClick={signNDA}>
+              Accept NDA
+            </button>
+          ) : (
+            <p className='mt-8 text-center font-bold text-red-400'>
+              There is an error fetching the contract. Contact the support team
+              to fix it, thanks.
+            </p>
+          )}
         </div>
       )}
 
