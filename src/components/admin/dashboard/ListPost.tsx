@@ -2,9 +2,10 @@ import { CustomIcons } from '@/components/CustomIcons';
 import { InterfacePost } from '@/lib/interfaces';
 import { formatDate } from '@/lib/utils';
 import Link from 'next/link';
+import { useState } from 'react';
 
-const shortText = (text: string, length: number) => {
-  if (text.length <= length) {
+const shortText = (text: string, length: number, isExpanded: boolean) => {
+  if (isExpanded || text.length <= length) {
     return text;
   }
   return text.slice(0, length) + '...';
@@ -17,6 +18,13 @@ const getInitials = (firstName: string, lastName: string) => {
 };
 
 export default function ListPost({ post }: { post: InterfacePost }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleReadMore = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsExpanded(!isExpanded);
+  };
+
   const initials = getInitials(post.userId.firstName, post.userId.lastName);
 
   return (
@@ -43,11 +51,11 @@ export default function ListPost({ post }: { post: InterfacePost }) {
           {formatDate(post.createdAt)}]
           <br />
         </i>
-        {shortText(post.content, 200)}
+        {shortText(post.content, 200, isExpanded)}
         {post.content.length > 200 && (
           <>
-            <a href='#' title='' className='underline'>
-              Read more
+            <a href='#' onClick={handleReadMore} className='underline'>
+              {isExpanded ? 'Read less' : 'Read more'}
             </a>
           </>
         )}
