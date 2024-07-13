@@ -65,3 +65,25 @@ export interface InterfaceTransaction {
   description: string;
   createdAt: string;
 }
+
+export interface InterfaceUser {
+  clerkId: string;
+  email: string;
+  username: string;
+  photo: string;
+  firstName: string;
+  lastName: string;
+  mobile: string;
+  about: string;
+  address: string;
+  vatNumber: string;
+  fiscalCode: string;
+  birthDate: string;
+  companyName: string;
+  socials: {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+    linkedin: string;
+  };
+}

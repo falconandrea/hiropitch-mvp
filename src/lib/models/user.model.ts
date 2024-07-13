@@ -36,7 +36,13 @@ const UserSchema = new Schema(
     address: {
       type: String,
     },
+    birthDate: {
+      type: Date,
+    },
     vatNumber: {
+      type: String,
+    },
+    fiscalCode: {
       type: String,
     },
     companyName: {

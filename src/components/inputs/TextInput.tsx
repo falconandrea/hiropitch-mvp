@@ -4,6 +4,7 @@ export interface TextInputProps {
   name: string;
   required?: boolean;
   type?: string;
+  disabled?: boolean;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -13,6 +14,7 @@ export default function TextInput({
   placeholder,
   name,
   required = false,
+  disabled = false,
   type = 'text',
   value,
   onChange,
@@ -30,6 +32,7 @@ export default function TextInput({
           type={type}
           id={name}
           required={required}
+          disabled={disabled}
           name={name}
           value={value}
           onChange={onChange}
