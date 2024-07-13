@@ -38,6 +38,9 @@ const IdeaSchema = new Schema(
     fileStructure: {
       type: Schema.Types.Mixed,
     },
+    image: {
+      type: Object,
+    },
     nftPrice: {
       type: String,
       required: true,

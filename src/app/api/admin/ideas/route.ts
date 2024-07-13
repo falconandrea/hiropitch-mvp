@@ -82,6 +82,28 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Upload image
+    let image = {
+      filePublicUrl: null,
+      filePath: null,
+      fileId: null,
+    } as {
+      filePublicUrl: string | null;
+      filePath: string | null;
+      fileId: string | null;
+    };
+    const uploadedImage = formData.getAll('image')[0];
+    if (uploadedImage) {
+      try {
+        image = await uploadFileToSupabase(
+          uploadedImage as File,
+          `${_id}/covers`
+        );
+      } catch (error) {
+        console.log('upload image', error);
+      }
+    }
+
     const idea = {
       title,
       description,
@@ -91,6 +113,7 @@ export async function POST(req: NextRequest) {
       referenceLinks,
       creatorId: _id,
       file,
+      image,
       fileStructure,
       nftQty,
       nftPrice,
@@ -171,7 +194,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Insert transaction data in database
-    const transaction = await createTransaction({
+    await createTransaction({
       smartContractId: smartContract._id,
       userId: _id,
       hash,

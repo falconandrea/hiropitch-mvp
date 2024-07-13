@@ -9,11 +9,9 @@ import React, { useEffect, useState } from 'react';
 import { IPContractTypes, IPCategories } from '@/lib/constants';
 import MultipleTexts from '@/components/inputs/MultipleTexts';
 import FileUploader from '@/components/FileUploader';
+import ImageUploader from '@/components/ImageUploader';
 import Loading from '../../../components/Loading';
 import NumberInput from '@/components/inputs/NumberInput';
-
-import { useUser } from '@clerk/nextjs';
-
 
 export default function Ideas() {
   const [formData, setFormData] = useState<{
@@ -25,6 +23,7 @@ export default function Ideas() {
     referenceLink: string;
     referenceLinks: string[];
     file: File | null;
+    image: File | null;
     fileStructure: any;
     nftQty: string;
     nftPrice: string;
@@ -40,6 +39,7 @@ export default function Ideas() {
     nftQty: '1',
     nftPrice: '1',
     file: null,
+    image: null,
     fileStructure: null,
     post: '',
   });
@@ -96,6 +96,9 @@ export default function Ideas() {
   const handleFileUpload = (file: File | null, structure: any) => {
     setFormData({ ...formData, file, fileStructure: structure });
   };
+  const handleImageUpload = (image: File | null) => {
+    setFormData({ ...formData, image });
+  };
 
   /* General form handling */
   const handleFormChange = (
@@ -117,7 +120,8 @@ export default function Ideas() {
       formData.authors.length === 0 ||
       formData.referenceLinks.length === 0 ||
       formData.nftQty.trim() === '' ||
-      formData.nftPrice.trim() === ''
+      formData.nftPrice.trim() === '' ||
+      !formData.image
     ) {
       return false;
     }
@@ -148,6 +152,7 @@ export default function Ideas() {
       data.append('file', formData.file as File);
       data.append('fileStructure', JSON.stringify(formData.fileStructure));
     }
+    if (formData.image) [data.append('image', formData.image as File)];
     data.append('authors', JSON.stringify(formData.authors));
     data.append('referenceLinks', JSON.stringify(formData.referenceLinks));
     if (formData.post) {
@@ -187,6 +192,7 @@ export default function Ideas() {
         referenceLinks: [],
         file: null,
         fileStructure: null,
+        image: null,
         nftQty: '1',
         nftPrice: '1',
         post: '',
@@ -211,8 +217,11 @@ export default function Ideas() {
         <div className='flex flex-col xl:flex-row xl:gap-x-4'>
           {/* Column Left */}
           <div className='w-full xl:w-1/2'>
+            <p className='mb-4'>
+              <small>Fields with * are required</small>
+            </p>
             <TextInput
-              label='IP name'
+              label='IP name *'
               name='title'
               required={true}
               value={formData.title}
@@ -221,7 +230,7 @@ export default function Ideas() {
             />
 
             <SelectInput
-              label='Contract Type'
+              label='Contract Type *'
               name='contractType'
               required={true}
               onChange={handleFormChange}
@@ -233,7 +242,7 @@ export default function Ideas() {
             />
 
             <SelectInput
-              label='IP category'
+              label='IP category *'
               name='category'
               required={true}
               onChange={handleFormChange}
@@ -245,7 +254,7 @@ export default function Ideas() {
             />
 
             <TextareaInput
-              label='IP description'
+              label='IP description *'
               name='description'
               required={true}
               value={formData.description}
@@ -257,7 +266,7 @@ export default function Ideas() {
           {/* Column Right */}
           <div className='w-full xl:w-1/2'>
             <MultipleTexts
-              label='IP reference links'
+              label='IP reference links *'
               name='referenceLink'
               onChange={handleChange}
               inputValue={inputValue}
@@ -268,24 +277,38 @@ export default function Ideas() {
             />
 
             <MultiSelect
-              label='Authors'
+              label='Authors *'
               options={users}
               selectedValues={formData.authors}
               onChange={handleMultiSelectChange}
             />
 
-            <FileUploader
-              onFileSelect={handleFileUpload}
-              name='file'
-              label='Upload ZIP file (for now Max 2MB)'
+            <ImageUploader
+              onFileSelect={handleImageUpload}
+              name='image'
+              label='Upload Cover Image (for now Max 2MB) *'
             />
+
+            <div className='mt-8'>
+              <FileUploader
+                onFileSelect={handleFileUpload}
+                name='file'
+                label='Upload ZIP file with project files (for now Max 2MB)'
+              />
+              <p className='-mt-4'>
+                <small className='text-xs'>
+                  In the next versions there will be an uploader here where you
+                  can manage folders and files within it.
+                </small>
+              </p>
+            </div>
           </div>
         </div>
 
         <hr className='mb-8 mt-4' />
 
         <TextareaInput
-          label='If you want to create a post to share with the community, please write it here!'
+          label='If you want to create a post to share with the community, please write it here! This will be visible even in dashboards without NDA.'
           name='post'
           value={formData.post || ''}
           onChange={handleFormChange}
@@ -303,7 +326,7 @@ export default function Ideas() {
           <div className='w-full xl:w-1/2'>
             <NumberInput
               step='1'
-              label='Quantity of NFTs'
+              label='Quantity of NFTs *'
               name='nftQty'
               required={true}
               value={formData.nftQty}
@@ -314,7 +337,7 @@ export default function Ideas() {
           <div className='w-full xl:w-1/2'>
             <NumberInput
               step='1'
-              label='Price of NFTs (SOL)'
+              label='Price of NFTs (SOL) *'
               name='nftPrice'
               required={true}
               value={formData.nftPrice}
