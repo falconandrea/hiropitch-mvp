@@ -1,5 +1,6 @@
 'use client';
 
+import { CustomIcons } from '@/components/CustomIcons';
 import Loading from '@/components/Loading';
 import { getIdea } from '@/lib/actions/idea.actions';
 import { getSmartContracts } from '@/lib/actions/smartcontract.actions';
@@ -10,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { IDEAS_IMAGES } from '@/app/admin/consts';
 import { useUser } from '@clerk/nextjs';
 import { getUserByClerkID } from '@/lib/actions/user.actions';
-import { getPosts } from '@/lib/actions/post.actions';
+import { getPosts, toggleLike } from '@/lib/actions/post.actions';
 import { formatDate } from '@/lib/utils';
 import TextareaInput from '@/components/inputs/TextareaInput';
 
@@ -190,6 +191,12 @@ export default function IdeaDetailPage() {
     }
   };
 
+  const toggleLikeValue = async (postId: string) => {
+    await toggleLike(postId, currentUserId as string).then(() => {
+      window.location.reload();
+    });
+  };
+
   return (
     <div className='max-w-2lg mx-auto'>
       {loading && <Loading />}
@@ -333,6 +340,26 @@ export default function IdeaDetailPage() {
                           </i>
                         </p>
                         <div>{post.content}</div>
+                        <div
+                          className='mb-4 flex cursor-pointer justify-end space-x-4'
+                          onClick={() => toggleLikeValue(post._id)}
+                        >
+                          <div className='flex space-x-2'>
+                            <span>{post.likes.length || 0}</span>
+                            {post.likes.includes(currentUserId as string) ? (
+                              <CustomIcons.thumbsUp
+                                color='#ef4444'
+                                fill='#ef4444'
+                              />
+                            ) : (
+                              <CustomIcons.thumbsUp />
+                            )}
+                          </div>
+                          <div className='flex space-x-2'>
+                            <span>{post.replies.length || 0}</span>
+                            <CustomIcons.messageCircle />
+                          </div>
+                        </div>
                         {post.replies.length > 0 && (
                           <div>
                             {post.replies.map((reply) => (
