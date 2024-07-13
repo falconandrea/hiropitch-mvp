@@ -14,7 +14,8 @@ const secretKey = Uint8Array.from(
 const payer = Keypair.fromSecretKey(secretKey);
 
 const getBalance = async () => {
-  console.log('Balance payer', await connection.getBalance(payer.publicKey));
+  const balance = await connection.getBalance(payer.publicKey);
+  console.log(`Payer balance: ${balance / 10 ** 9} SOL`);
 };
 
 getBalance();
