@@ -104,7 +104,7 @@ export default function IdeaDetailPage() {
       setLoading(true);
       getUserInfo(user.id);
     }
-  }, [user]);
+  }, [user, id]);
 
   const onChangeReply = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
