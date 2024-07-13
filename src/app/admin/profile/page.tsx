@@ -42,7 +42,7 @@ export default function ProfilePage() {
     instagram: '',
     facebook: '',
     birthdate: '',
-    fiscalCode: ''
+    fiscalCode: '',
   });
   const [loading, setLoading] = useState(false);
   const [fileError, setFileError] = useState<string | null>(null);
@@ -95,9 +95,9 @@ export default function ProfilePage() {
       const response = await fetch('/api/user/profile', {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formDataToSend)
+        body: JSON.stringify(formDataToSend),
       });
 
       if (response.ok) {
@@ -113,163 +113,163 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div className='mx-auto max-w-4xl p-4'>
       {loading && <Loading />}
-      <h1 className="mb-4 text-2xl font-bold">Settings</h1>
-      <p className="mb-4">Here are your personal and company details</p>
+      <h1 className='mb-4 text-2xl font-bold'>Settings</h1>
+      <p className='mb-4'>Here are your personal and company details</p>
 
-      <div className="mb-8">
+      <div className='mb-8'>
         <FileUploader
-          name="profileImage"
+          name='profileImage'
           onFileSelect={handleFileSelect}
-          label="Upload new image"
+          label='Upload new image'
         />
-        {fileError && <p className="text-red-500">{fileError}</p>}
-        <button className="bg-red-500 text-white px-4 py-2 mt-2">Delete</button>
+        {fileError && <p className='text-red-500'>{fileError}</p>}
+        <button className='mt-2 bg-red-500 px-4 py-2 text-white'>Delete</button>
       </div>
 
-      <h2 className="text-xl font-bold mb-4">Personal details</h2>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <h2 className='mb-4 text-xl font-bold'>Personal details</h2>
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
         <div>
           <TextInput
-            label="First name"
-            name="firstName"
+            label='First name'
+            name='firstName'
             value={formData.firstName}
             onChange={handleInputChange}
-            placeholder="Enter your first name"
+            placeholder='Enter your first name'
             required={true}
           />
         </div>
         <div>
           <TextInput
-            label="Mobile number"
-            name="mobileNumber"
+            label='Mobile number'
+            name='mobileNumber'
             value={formData.mobileNumber}
             onChange={handleInputChange}
-            placeholder="Enter your mobile number"
+            placeholder='Enter your mobile number'
             required={true}
           />
         </div>
         <div>
           <TextInput
-            label="Last name"
-            name="lastName"
+            label='Last name'
+            name='lastName'
             value={formData.lastName}
             onChange={handleInputChange}
-            placeholder="Enter your last name"
+            placeholder='Enter your last name'
             required={true}
           />
         </div>
         <div>
           <TextInput
-            label="Email address"
-            name="email"
+            label='Email address'
+            name='email'
             value={formData.email}
             onChange={handleInputChange}
-            placeholder="Enter your email address"
+            placeholder='Enter your email address'
             required={true}
           />
         </div>
         <div>
           <TextInput
-            label="Date of Birth"
-            name="birthdate"
-            type="date"
+            label='Date of Birth'
+            name='birthdate'
+            type='date'
             value={formData.birthdate}
             onChange={handleInputChange}
-            placeholder="Enter your address"
+            placeholder='Enter your address'
             required={true}
           />
         </div>
         <div>
           <TextInput
-            label="Fiscal Code"
-            name="fiscalCode"
+            label='Fiscal Code'
+            name='fiscalCode'
             value={formData.fiscalCode}
             onChange={handleInputChange}
-            placeholder="Enter your fiscal code"
+            placeholder='Enter your fiscal code'
             required={true}
           />
         </div>
         <div>
           <TextInput
-            label="Username"
-            name="username"
+            label='Username'
+            name='username'
             value={formData.username}
             onChange={handleInputChange}
-            placeholder="Enter your username"
+            placeholder='Enter your username'
             required={true}
           />
         </div>
         <div>
           <TextInput
-            label="Address"
-            name="address"
+            label='Address'
+            name='address'
             value={formData.address}
             onChange={handleInputChange}
-            placeholder="Enter your address"
+            placeholder='Enter your address'
             required={true}
           />
         </div>
-        <div className="col-span-2">
+        <div className='col-span-2'>
           <TextareaInput
-            label="About"
-            name="about"
+            label='About'
+            name='about'
             value={formData.about}
             onChange={handleInputChange}
-            placeholder="Tell us about yourself"
+            placeholder='Tell us about yourself'
             required={true}
           />
         </div>
       </div>
 
-      <h2 className="text-xl font-bold mt-8 mb-4">Company details</h2>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <h2 className='mb-4 mt-8 text-xl font-bold'>Company details</h2>
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
         <TextInput
-          label="VAT Number"
-          name="vatNumber"
+          label='VAT Number'
+          name='vatNumber'
           value={formData.vatNumber}
           onChange={handleInputChange}
-          placeholder="Enter your VAT number"
+          placeholder='Enter your VAT number'
           required={true}
         />
         <TextInput
-          label="Company Name"
-          name="companyName"
+          label='Company Name'
+          name='companyName'
           value={formData.companyName}
           onChange={handleInputChange}
-          placeholder="Enter your company name"
+          placeholder='Enter your company name'
           required={true}
         />
         <TextInput
-          label="LinkedIn"
-          name="linkedin"
+          label='LinkedIn'
+          name='linkedin'
           value={formData.linkedin}
           onChange={handleInputChange}
-          placeholder="Enter your LinkedIn profile link"
+          placeholder='Enter your LinkedIn profile link'
           required={true}
         />
         <TextInput
-          label="Instagram"
-          name="instagram"
+          label='Instagram'
+          name='instagram'
           value={formData.instagram}
           onChange={handleInputChange}
-          placeholder="Enter your Instagram profile link"
+          placeholder='Enter your Instagram profile link'
           required={true}
         />
         <TextInput
-          label="Facebook"
-          name="facebook"
+          label='Facebook'
+          name='facebook'
           value={formData.facebook}
           onChange={handleInputChange}
-          placeholder="Enter your Facebook profile link"
+          placeholder='Enter your Facebook profile link'
           required={true}
         />
       </div>
 
-      <div className="mt-8 flex justify-center">
+      <div className='mt-8 flex justify-center'>
         <button
-          className="bg-orange-500 text-white px-6 py-3 text-lg"
+          className='bg-orange-500 px-6 py-3 text-lg text-white'
           onClick={handleSave}
         >
           Save

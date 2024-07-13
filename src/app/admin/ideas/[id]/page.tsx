@@ -398,7 +398,7 @@ export default function IdeaDetailPage() {
                                 onClick={(event) =>
                                   submitReply(event, post._id)
                                 }
-                                className='mb-2 inline-block rounded-md border-2 border-black px-2 py-1 hover:bg-black hover:text-white'
+                                className='focus:shadow-outline mb-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
                               >
                                 Reply
                               </button>

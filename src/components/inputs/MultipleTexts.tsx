@@ -46,7 +46,7 @@ export default function MultipleTexts({
         />
         <span
           onClick={onAddValue}
-          className='focus:shadow-outline ml-2 cursor-pointer rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700 focus:outline-none'
+          className='focus:shadow-outline ml-2 cursor-pointer rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
         >
           Add
         </span>
