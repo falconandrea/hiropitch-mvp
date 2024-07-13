@@ -34,6 +34,12 @@ export function Sidebar() {
               IDEAs
             </Link>
             <Link
+              href='/admin/transactions'
+              className={`block rounded px-4 py-2 font-bold text-white hover:bg-gray-600 ${isActive('/admin/transactions')}`}
+            >
+              Your transactions
+            </Link>
+            <Link
               href='/admin/market'
               className={`block rounded px-4 py-2 font-bold text-white hover:bg-gray-600 ${isActive('/admin/market')}`}
             >

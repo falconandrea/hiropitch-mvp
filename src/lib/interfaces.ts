@@ -49,3 +49,19 @@ export interface InterfaceSmartContract {
   contractAddress: string;
   type: string;
 }
+
+export interface InterfaceTransaction {
+  _id: string;
+  smartContractId: {
+    _id: string;
+    ideaId: {
+      _id: string;
+      title: string;
+    };
+    contractAddress: string;
+  };
+  userId: string;
+  hash: string;
+  description: string;
+  createdAt: string;
+}

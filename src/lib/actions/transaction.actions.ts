@@ -23,8 +23,16 @@ export async function getTransactions(
     await connect();
 
     const transactions = await Transaction.find(filters)
+      .populate({
+        path: 'smartContractId',
+        select: '_id ideaId contractAddress',
+        populate: {
+          path: 'ideaId',
+          select: '_id title',
+        },
+      })
       .sort(sortOptions)
-      .limit(limit);
+      .limit(limit > 0 ? limit : 999999);
     return JSON.parse(JSON.stringify(transactions));
   } catch (error) {
     console.log(error);
