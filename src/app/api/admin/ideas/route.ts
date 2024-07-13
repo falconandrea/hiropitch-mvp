@@ -75,6 +75,14 @@ export async function POST(req: NextRequest) {
 
     const uploadedFile = formData.getAll('file')[0];
     if (uploadedFile) {
+      // Check if size of file is over 2MB
+      if ((uploadedFile as File).size > 2097152) {
+        return Response.json(
+          { message: 'File size has to be less than 2MB' },
+          { status: 400 }
+        );
+      }
+      // Save
       try {
         file = await uploadFileToSupabase(uploadedFile as File, _id);
       } catch (error) {
@@ -94,6 +102,14 @@ export async function POST(req: NextRequest) {
     };
     const uploadedImage = formData.getAll('image')[0];
     if (uploadedImage) {
+      // Check if size of file is over 2MB
+      if ((uploadedImage as File).size > 2097152) {
+        return Response.json(
+          { message: 'Image size has to be less than 2MB' },
+          { status: 400 }
+        );
+      }
+
       try {
         image = await uploadFileToSupabase(
           uploadedImage as File,

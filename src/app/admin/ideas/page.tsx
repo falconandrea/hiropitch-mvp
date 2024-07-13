@@ -129,14 +129,17 @@ export default function Ideas() {
   };
   /* Submit form */
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setShowErrorMessage(false);
+    setErrorMessage('');
     setShowSuccessMessage(false);
     if (!validateForm()) {
+      setErrorMessage('Please fill in all required fields.');
       setShowErrorMessage(true);
       return;
     }
@@ -167,41 +170,43 @@ export default function Ideas() {
         body: data,
       });
       if (response.ok) {
-        // Success handling
-        console.log('Form submitted successfully!');
+        setLoading(false);
+
+        // Show success message
+        setShowErrorMessage(false);
+        setErrorMessage('');
+        setShowSuccessMessage(true);
+
+        // Reset form
+        setFormData({
+          title: '',
+          description: '',
+          category: '',
+          contractType: '',
+          authors: [],
+          referenceLink: '',
+          referenceLinks: [],
+          file: null,
+          fileStructure: null,
+          image: null,
+          nftQty: '1',
+          nftPrice: '1',
+          post: '',
+        });
+
+        // Hide success message after 3 seconds
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+        }, 3000);
       } else {
         // Error handling
-        console.error('Form submission failed.');
+        const errorData = await response.json();
+        setShowErrorMessage(true);
+        setErrorMessage(errorData.message);
+        setLoading(false);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-    } finally {
-      setLoading(false);
-
-      // Show success message
-      setShowSuccessMessage(true);
-
-      // Reset form
-      setFormData({
-        title: '',
-        description: '',
-        category: '',
-        contractType: '',
-        authors: [],
-        referenceLink: '',
-        referenceLinks: [],
-        file: null,
-        fileStructure: null,
-        image: null,
-        nftQty: '1',
-        nftPrice: '1',
-        post: '',
-      });
-
-      // Hide success message after 3 seconds
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 3000);
     }
   };
 
@@ -358,8 +363,8 @@ export default function Ideas() {
             Submit
           </button>
 
-          {showErrorMessage && (
-            <p className='mt-4 text-red-500'>Please fill in all fields</p>
+          {showErrorMessage && errorMessage && (
+            <p className='mt-4 text-red-500'>{errorMessage}</p>
           )}
 
           {showSuccessMessage && (
