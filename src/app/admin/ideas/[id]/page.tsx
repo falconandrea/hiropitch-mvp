@@ -200,11 +200,16 @@ export default function IdeaDetailPage() {
     <div className='max-w-2lg mx-auto'>
       {loading && <Loading />}
 
+      {!loading && !idea && <p className='text-center'>No idea found.</p>}
+
       {!loading && idea && !nda && (
         <div className='flex flex-col border-2 p-4'>
           You have to accept NDA to see the idea content.
           {ideaContract ? (
-            <button className='mt-8 inline-block border-2' onClick={signNDA}>
+            <button
+              className='mx-auto mt-8 inline-block w-32 border-2 border-gray-800 px-4 py-2 hover:bg-gray-800 hover:text-white'
+              onClick={signNDA}
+            >
               Accept NDA
             </button>
           ) : (
