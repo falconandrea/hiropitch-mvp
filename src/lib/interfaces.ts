@@ -33,6 +33,11 @@ export interface InferfaceIdea {
   authors: { _id: string; firstName: string; lastName: string }[];
   referenceLinks: string[];
   file: object;
+  image: {
+    filePublicUrl: string;
+    filePath: string;
+    fileId: string;
+  };
   fileStructure: object;
   nftPrice: string;
   nftQty: string;

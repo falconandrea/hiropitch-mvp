@@ -8,7 +8,6 @@ import { InferfaceIdea, InterfacePost } from '@/lib/interfaces';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { IDEAS_IMAGES } from '@/app/admin/consts';
 import { useUser } from '@clerk/nextjs';
 import { getUserByClerkID } from '@/lib/actions/user.actions';
 import { getPosts, toggleLike } from '@/lib/actions/post.actions';
@@ -316,12 +315,12 @@ export default function IdeaDetailPage() {
 
             {/* RIGHT SECTION */}
             <div className='w-full xl:w-1/2'>
-              {IDEAS_IMAGES[id] && (
+              {idea.image && idea.image.filePublicUrl && (
                 <Image
                   alt='Image Idea'
                   width={600}
                   height={300}
-                  src={`/ideas/${IDEAS_IMAGES[id]}`}
+                  src={idea.image.filePublicUrl}
                 />
               )}
 
