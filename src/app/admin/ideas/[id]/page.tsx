@@ -16,8 +16,6 @@ import TextareaInput from '@/components/inputs/TextareaInput';
 import React from 'react';
 import DirectoryTree from '@/components/admin/DirectoryTree';
 import Link from 'next/link';
-import NumberInput from '@/components/inputs/NumberInput';
-import { getTransactions } from '@/lib/actions/transaction.actions';
 
 export default function IdeaDetailPage() {
   // Get id idea from url
@@ -31,8 +29,6 @@ export default function IdeaDetailPage() {
   const [ideaContract, setIdeaContract] = useState<string>();
   const [posts, setPosts] = useState<InterfacePost[]>();
   const [reply, setReply] = useState<string>('');
-  const [nftMinted, setNftMinted] = useState<number>(0);
-  const [quantityToMint, setQuantityToMint] = useState<string>('1');
 
   useEffect(() => {
     if (user && user.id) {
@@ -73,7 +69,6 @@ export default function IdeaDetailPage() {
             if (data.length > 0) {
               console.log('data', data[0]);
               setIdeaContract(data[0].contractAddress);
-              fetchNftMinted(data[0]._id);
             }
             fetchNDA(ideaId, userId);
           }
@@ -107,22 +102,6 @@ export default function IdeaDetailPage() {
           setLoading(false);
         } catch (error) {
           console.error('Error fetching comments:', error);
-          setLoading(false);
-        }
-      };
-
-      const fetchNftMinted = async (smartContractId: string) => {
-        try {
-          if (smartContractId) {
-            const data = await getTransactions(
-              { smartContractId, description: 'Mint NFT' },
-              {},
-              0
-            );
-            setNftMinted(data.length);
-          }
-        } catch (error) {
-          console.error('Error fetching idea contract:', error);
           setLoading(false);
         }
       };
@@ -220,59 +199,6 @@ export default function IdeaDetailPage() {
     await toggleLike(postId, currentUserId as string).then(() => {
       window.location.reload();
     });
-  };
-
-  const onChangeQuantityToMint = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setQuantityToMint(event.target.value);
-  };
-
-  const [errorMintNFT, setErrorMintNFT] = useState<string>('');
-  const [showErrorMintNFT, setShowErrorMintNFT] = useState<boolean>(false);
-
-  const mintNFT = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (quantityToMint && Number(quantityToMint) > 0 && idea) {
-      try {
-        setLoading(true);
-
-        setShowErrorMintNFT(false);
-        setErrorMintNFT('');
-
-        const response = await fetch('/api/admin/ideas/mint', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            quantity: Number(quantityToMint),
-            contractAddress: ideaContract,
-            ideaId: idea._id,
-            maxMintAmount: Number(idea.nftQty) - nftMinted,
-          }),
-        });
-        if (response.ok) {
-          // Success handling
-          console.log('Mint NFT successfully!');
-        } else {
-          // Error handling
-          console.error('Mint NFT failed.');
-
-          const errorData = await response.json();
-          setShowErrorMintNFT(true);
-          setErrorMintNFT(errorData.message);
-        }
-      } catch (error) {
-        console.error('Error submitting mint nft:', error);
-      } finally {
-        setLoading(false);
-
-        // Reload page
-        // window.location.reload();
-      }
-    }
   };
 
   return (
@@ -516,51 +442,6 @@ export default function IdeaDetailPage() {
                 </div>
               )}
             </div>
-          </div>
-
-          <hr className='mt-4' />
-
-          {/* Mint NFT */}
-          <div>
-            <h3 className='mb-2 mt-6 text-xl font-bold'>Mint NFT</h3>
-            <div className='md:flex'>
-              <div className='w-full md:w-1/2'>
-                <p className='mt-4'>
-                  <strong>Mint NFT status:</strong> {nftMinted} / {idea.nftQty}{' '}
-                  minted
-                </p>
-                <p className='mt-2'>
-                  <strong>Your NFT quantity:</strong> {nftMinted}
-                </p>
-                <p className='mt-2'>
-                  <strong>NFT price:</strong> {idea.nftPrice} Sol
-                </p>
-              </div>
-              {nftMinted < Number(idea.nftQty) && (
-                <form method='POST' className='w-full md:w-1/2' id='mint-form'>
-                  <div className='w-64'>
-                    <NumberInput
-                      label='Quantity NFT to mint'
-                      name='quantityToMint'
-                      step='1'
-                      max={Number(idea.nftQty) - nftMinted}
-                      placeholder='How many NFTs to mint?'
-                      value={quantityToMint}
-                      onChange={onChangeQuantityToMint}
-                    />
-                  </div>
-                  <button
-                    type='submit'
-                    disabled={loading}
-                    onClick={mintNFT}
-                    className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
-                  >
-                    Mint
-                  </button>
-                </form>
-              )}
-            </div>
-            {showErrorMintNFT && <p className='text-red-500'>{errorMintNFT}</p>}
           </div>
         </div>
       )}
