@@ -13,6 +13,8 @@ import { getUserByClerkID } from '@/lib/actions/user.actions';
 import { getPosts, toggleLike } from '@/lib/actions/post.actions';
 import { formatDate } from '@/lib/utils';
 import TextareaInput from '@/components/inputs/TextareaInput';
+import React from 'react';
+
 
 export default function IdeaDetailPage() {
   // Get id idea from url
@@ -65,13 +67,13 @@ export default function IdeaDetailPage() {
             );
             if (data.length > 0) setIdeaContract(data[0].contractAddress);
             fetchNDA(ideaId, userId);
-            console.log('fetch idea contract');
           }
         } catch (error) {
           console.error('Error fetching idea contract:', error);
           setLoading(false);
         }
       };
+      
 
       const fetchNDA = async (ideaId: string, userId: string) => {
         try {
@@ -196,6 +198,9 @@ export default function IdeaDetailPage() {
     });
   };
 
+
+
+  
   return (
     <div className='max-w-2lg mx-auto'>
       {loading && <Loading />}
@@ -315,6 +320,14 @@ export default function IdeaDetailPage() {
                   <strong>Price single NFT:</strong>
                 </p>
                 <p>{idea.nftPrice} Sol</p>
+              </div>
+              
+              {/* Aggiunta del nuovo campo "Contenuto" */}
+              <div className='mb-4'>
+                <p>
+                  <strong>Content:</strong>
+                </p>
+               
               </div>
             </div>
 
