@@ -1,6 +1,8 @@
 'use server';
 
 import Transaction from '../models/transaction.model';
+import SmartContract from '../models/smartcontract.model';
+import mongoose from 'mongoose';
 import { connect } from '../db';
 
 export async function createTransaction(transaction: any) {
@@ -21,6 +23,15 @@ export async function getTransactions(
 ) {
   try {
     await connect();
+
+    // Forza la registrazione dei modelli
+    const models: { [key: string]: any } = { SmartContract, Transaction };
+
+    Object.keys(models).forEach((key: string) => {
+      if (!mongoose.modelNames().includes(key)) {
+        mongoose.model(key, models[key].schema);
+      }
+    });
 
     const transactions = await Transaction.find(filters)
       .populate({
