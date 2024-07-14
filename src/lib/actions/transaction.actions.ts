@@ -2,6 +2,7 @@
 
 import Transaction from '../models/transaction.model';
 import SmartContract from '../models/smartcontract.model';
+import Idea from '../models/idea.model';
 import mongoose from 'mongoose';
 import { connect } from '../db';
 
@@ -25,7 +26,7 @@ export async function getTransactions(
     await connect();
 
     // Forza la registrazione dei modelli
-    const models: { [key: string]: any } = { SmartContract, Transaction };
+    const models: { [key: string]: any } = { SmartContract, Transaction, Idea };
 
     Object.keys(models).forEach((key: string) => {
       if (!mongoose.modelNames().includes(key)) {
