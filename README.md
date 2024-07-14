@@ -42,7 +42,7 @@ SUPABASE_BUCKET=hiropitch
 SOLANA_SECRET_KEY="[]"
 ```
 
-## Project Description
+## Project description
 
 Hiropitch is a decentralized platform for managing and tokenizing intellectual property (IP). The platform offers a marketplace for buying and selling tokenized IP, SaaS integration for legal transactions, transparent IP management, and community-driven project selection and development.
 
@@ -92,6 +92,6 @@ npm run dev
 - Minting NFTs: Users will have the ability to mint NFTs from the collection to support a project.
 - Community Interaction: Users will be able to interact with other supporters of a project by creating and joining a community.
 
-### License
+### License
 
 MIT
