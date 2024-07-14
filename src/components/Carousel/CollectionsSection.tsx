@@ -1,10 +1,10 @@
-import { STATS_TABLE } from '../../app/admin/consts';
-import { useMemo } from 'react';
 import { Mousewheel, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Button from './Button';
 import Container from './Container';
 import Image from 'next/image';
+import { InferfaceIdea } from '@/lib/interfaces';
+import Link from 'next/link';
 
 const commonBiggerScreen = {
   centeredSlides: false,
@@ -14,17 +14,15 @@ const commonBiggerScreen = {
   slidesOffsetAfter: 0,
 };
 
-// PARTE DELLA PAGINA DEDICATA A SEZIONI SPECIFICHE SOTTO LA TABELLA
-type CollectionsSectionProps = {
+export default function CollectionsSection({
+  title,
+  id,
+  ideas,
+}: {
   title: string;
   id?: string;
-};
-
-export default function CollectionsSection({ title, id }: CollectionsSectionProps) {
-  const shuffledData = useMemo(() => {
-    return STATS_TABLE.sort(() => 0.5 - Math.random()).slice(0, 4);
-  }, []);
-
+  ideas: InferfaceIdea[];
+}) {
   return (
     <Container className='pt-16' id={id}>
       <div className='flex items-center justify-between'>
@@ -71,37 +69,51 @@ export default function CollectionsSection({ title, id }: CollectionsSectionProp
           navigation
           className='collections-slide'
         >
-          {shuffledData.map((item, i) => (
+          {ideas.map((item, i) => (
             <SwiperSlide key={i}>
               <div
-                className='cursor-pointer overflow-hidden rounded-2xl shadow duration-200 will-change-transform hover:-translate-y-1 hover:shadow-md sm:w-full'
+                className='relative cursor-pointer overflow-hidden rounded-2xl shadow duration-200 will-change-transform hover:-translate-y-1 hover:shadow-md sm:w-full'
                 key={i}
               >
+                <Link
+                  href={`/admin/ideas/${item._id}`}
+                  className='absolute inset-0 z-10'
+                  title=''
+                />
                 <div className='relative aspect-video'>
                   <Image
                     height={300}
                     width={300}
                     alt=''
-                    src={`/carousel/${item.image}`}
+                    src={`${item.image.filePublicUrl}`}
                     className='absolute inset-0 h-full w-full object-cover object-top'
                   />
                 </div>
                 <div className='p-4'>
-                  <p className='font-semibold text-slate-900'>{item.name}</p>
+                  <p className='font-semibold text-slate-900'>{item.title}</p>
 
-                  <div className='mt-4 flex gap-x-8'>
-                    <div>
-                      <p className='text-sm'>To pay to be part</p>
-                      <p className='font-semibold text-slate-900'>
-                        {item.floor} Sol
-                      </p>
+                  <div className='mt-4'>
+                    <div className='flex w-full'>
+                      <div className='w-1/2'>
+                        <p className='text-sm'>
+                          Price
+                          <br />
+                          <span className='font-semibold text-slate-900'>
+                            {item.nftPrice} Sol
+                          </span>
+                        </p>
+                      </div>
+                      <div className='w-1/2'>
+                        <p className='text-sm'>
+                          Nr. NFTs
+                          <br />
+                          <span className='font-semibold text-slate-900'>
+                            {item.nftQty}
+                          </span>
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className='text-sm'>Goal</p>
-                      <p className='font-semibold text-slate-900'>
-                        {item.volume} / {item.total}
-                      </p>
-                    </div>
+                    <div></div>
                   </div>
                 </div>
               </div>

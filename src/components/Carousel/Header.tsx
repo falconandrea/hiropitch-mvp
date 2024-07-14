@@ -47,7 +47,7 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-white text-black transition-colors duration-150 ${
+      className={`sticky top-0 z-10 border-b bg-white text-black transition-colors duration-150 ${
         isSticked ? 'shadow-md' : ''
       }`}
       ref={ref}
