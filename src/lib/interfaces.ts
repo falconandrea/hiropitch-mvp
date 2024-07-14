@@ -32,7 +32,11 @@ export interface InferfaceIdea {
   };
   authors: { _id: string; firstName: string; lastName: string }[];
   referenceLinks: string[];
-  file: object;
+  file: {
+    filePublicUrl: string;
+    filePath: string;
+    fileId: string;
+  };
   image: {
     filePublicUrl: string;
     filePath: string;

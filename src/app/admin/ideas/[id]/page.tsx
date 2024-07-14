@@ -14,7 +14,8 @@ import { getPosts, toggleLike } from '@/lib/actions/post.actions';
 import { formatDate } from '@/lib/utils';
 import TextareaInput from '@/components/inputs/TextareaInput';
 import React from 'react';
-
+import DirectoryTree from '@/components/admin/DirectoryTree';
+import Link from 'next/link';
 
 export default function IdeaDetailPage() {
   // Get id idea from url
@@ -73,7 +74,6 @@ export default function IdeaDetailPage() {
           setLoading(false);
         }
       };
-      
 
       const fetchNDA = async (ideaId: string, userId: string) => {
         try {
@@ -198,9 +198,6 @@ export default function IdeaDetailPage() {
     });
   };
 
-
-
-  
   return (
     <div className='max-w-2lg mx-auto'>
       {loading && <Loading />}
@@ -209,13 +206,14 @@ export default function IdeaDetailPage() {
 
       {!loading && idea && !nda && (
         <div className='flex flex-col border-2 p-4'>
-          You have to accept NDA to see the idea content.
+          By clicking 'Submit,' you agree to the terms of the Non-Disclosure
+          Agreement (NDA).
           {ideaContract ? (
             <button
-              className='mx-auto mt-8 inline-block w-32 border-2 border-gray-800 px-4 py-2 hover:bg-gray-800 hover:text-white'
+              className='mx-auto mt-8 inline-block w-64 border-2 border-gray-800 px-4 py-2 hover:bg-gray-800 hover:text-white'
               onClick={signNDA}
             >
-              Accept NDA
+              Submit and Acknowledge NDA Agreement
             </button>
           ) : (
             <p className='mt-8 text-center font-bold text-red-400'>
@@ -321,14 +319,31 @@ export default function IdeaDetailPage() {
                 </p>
                 <p>{idea.nftPrice} Sol</p>
               </div>
-              
-              {/* Aggiunta del nuovo campo "Contenuto" */}
-              <div className='mb-4'>
-                <p>
-                  <strong>Content:</strong>
-                </p>
-               
-              </div>
+
+              {idea.fileStructure && idea.file && (
+                <div>
+                  <div className='mb-4'>
+                    <p>
+                      <strong>Download archive with Idea files:</strong> <br />
+                      <Link
+                        className='underline'
+                        href={idea.file.filePublicUrl}
+                        title='Download archive file'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
+                        Download
+                      </Link>
+                    </p>
+                  </div>
+                  <div className='mb-4'>
+                    <p>
+                      <strong>Archive Structure:</strong>
+                      <DirectoryTree treeData={idea.fileStructure} />
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* RIGHT SECTION */}
