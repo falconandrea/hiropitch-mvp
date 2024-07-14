@@ -21,7 +21,7 @@ export default function Dashboard() {
     // Fetch data from API
     const fetchPosts = async () => {
       try {
-        const data = await getPosts({}, {}, 10);
+        const data = await getPosts({}, { createdAt: -1 }, 10);
         console.log('data', data);
         setPosts(data);
         setLoading(false);
