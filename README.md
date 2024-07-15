@@ -11,6 +11,7 @@ Hiropitch was developed after participating in the [MasterZ](https://www.masterz
 - Andrea Falcon - [Linkedin](https://www.linkedin.com/in/andrea-falcon-fullstack-developer/)
 - Riccardo Soddu - [Linkedin](https://it.linkedin.com/in/riccardosoddu)
 - Igor Sanna - [Linkedin](https://www.linkedin.com/in/igor-sanna-092b68224)
+- Marco Monno - [Linkedin](https://www.linkedin.com/in/marcomonno/)
 
 ## Technologies Used
 
