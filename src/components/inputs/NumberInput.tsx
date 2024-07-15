@@ -6,6 +6,7 @@ export interface NumberInputProps {
   required?: boolean;
   type?: string;
   value: string;
+  max?: number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -15,6 +16,7 @@ export default function NumberInput({
   name,
   required = false,
   step = '1',
+  max,
   value,
   onChange,
 }: NumberInputProps) {
@@ -27,18 +29,34 @@ export default function NumberInput({
         >
           {label}
         </label>
-        <input
-          type='number'
-          min='1'
-          step={step}
-          id={name}
-          required={required}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
-        />
+        {max ? (
+          <input
+            type='number'
+            min='1'
+            step={step}
+            id={name}
+            required={required}
+            name={name}
+            max={max}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
+          />
+        ) : (
+          <input
+            type='number'
+            min='1'
+            step={step}
+            id={name}
+            required={required}
+            name={name}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
+          />
+        )}
       </div>
     </div>
   );

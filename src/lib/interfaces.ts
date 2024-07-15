@@ -52,6 +52,7 @@ export interface InterfaceSmartContract {
   ideaId: string;
   contractAddress: string;
   type: string;
+  signer: string | null;
 }
 
 export interface InterfaceTransaction {
