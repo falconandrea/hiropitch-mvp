@@ -1,26 +1,20 @@
+import { clusterApiUrl } from '@solana/web3.js';
+import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
+import { mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata';
 import {
-  Metaplex,
+  createSignerFromKeypair,
   keypairIdentity,
-  irysStorage,
-} from '@metaplex-foundation/js';
-import { Connection, clusterApiUrl, Keypair } from '@solana/web3.js';
+} from '@metaplex-foundation/umi';
+import { irysUploader } from '@metaplex-foundation/umi-uploader-irys';
 
-const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
-
-// Get Payer wallet
-const secretKey = Uint8Array.from(
-  JSON.parse(process.env.SOLANA_SECRET_KEY || '[]')
+// Use the RPC endpoint of your choice.
+const umi = createUmi(clusterApiUrl('devnet')).use(mplTokenMetadata());
+const creatorWallet = umi.eddsa.createKeypairFromSecretKey(
+  Uint8Array.from(JSON.parse(process.env.SOLANA_SECRET_KEY || '[]'))
 );
-const payer = Keypair.fromSecretKey(secretKey);
+const creator = createSignerFromKeypair(umi, creatorWallet);
+umi.use(keypairIdentity(creator));
+umi.use(mplTokenMetadata());
+umi.use(irysUploader());
 
-const metaplex = Metaplex.make(connection)
-  .use(keypairIdentity(payer))
-  .use(
-    irysStorage({
-      address: 'https://devnet.irys.xyz',
-      providerUrl: 'https://api.devnet.solana.com',
-      timeout: 60000,
-    })
-  );
-
-export { metaplex, payer };
+export { umi, creator };

@@ -187,10 +187,7 @@ export async function POST(req: NextRequest) {
       NFTSupply: nftQty,
       fileStructure: fileStructureJSON,
     };
-    const result = await createNFTCollection(
-      json,
-      parseInt(nftQty as string, 10)
-    );
+    const result = await createNFTCollection(json);
 
     if (!result) {
       return Response.json(

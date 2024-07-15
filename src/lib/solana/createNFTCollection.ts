@@ -1,5 +1,8 @@
 import { SendTransactionError } from '@solana/web3.js';
-import { metaplex, payer } from './metaplex';
+import { umi } from './metaplex';
+import { generateSigner, percentAmount } from '@metaplex-foundation/umi';
+import { createNft } from '@metaplex-foundation/mpl-token-metadata';
+import { base58 } from '@metaplex-foundation/umi/serializers';
 
 const mappingAttributes = (json: any) => {
   const formattedArray = [];
@@ -34,32 +37,29 @@ const mappingAttributes = (json: any) => {
   return formattedArray;
 };
 
-export async function createNFTCollection(json: any, maxSupply: number) {
+export async function createNFTCollection(json: any) {
   try {
-    // Definisci i metadati dell'NFT
-    const { uri, metadata } = await metaplex.nfts().uploadMetadata({
+    // Metadata
+    const metadata = {
       name: 'Hiropitch Idea - ' + json.ideaId,
       symbol: 'HIROIDEAS',
       description: 'This is the idea on Hiropitch with the id ' + json.ideaId,
       attributes: mappingAttributes(json),
-    });
+    };
 
-    console.log('metadataUri', uri, metadata);
+    const uri = await umi.uploader.uploadJson(metadata);
 
-    // Creazione della collezione NFT
-    const { nft, response } = await metaplex.nfts().create({
-      uri: uri,
-      name: 'Hiropitch Ideas',
-      maxSupply: maxSupply,
+    const mint = generateSigner(umi);
+    const { signature, result } = await createNft(umi, {
+      mint,
+      name: 'HPIdea ' + json.ideaId, //max 32 chars
+      uri,
+      sellerFeeBasisPoints: percentAmount(0),
       isCollection: true,
-      symbol: 'HIROIDEAS',
-      updateAuthority: payer,
-      sellerFeeBasisPoints: 0, // 0% di fee (5% = 500)
-      creators: [{ address: payer.publicKey, share: 100 }],
-    });
+    }).sendAndConfirm(umi);
 
-    const collectionAddress = nft.address.toString();
-    const hash = response.signature;
+    const collectionAddress = mint.publicKey.toString();
+    const hash = base58.deserialize(signature)[0];
 
     console.log(
       `https://explorer.solana.com/address/${collectionAddress}?cluster=devnet`

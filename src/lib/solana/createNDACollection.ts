@@ -1,5 +1,8 @@
 import { SendTransactionError } from '@solana/web3.js';
-import { metaplex, payer } from './metaplex';
+import { umi } from './metaplex';
+import { generateSigner, percentAmount } from '@metaplex-foundation/umi';
+import { createNft } from '@metaplex-foundation/mpl-token-metadata';
+import { base58 } from '@metaplex-foundation/umi/serializers';
 
 const mappingAttributes = (json: any) => {
   const formattedArray = [];
@@ -30,30 +33,28 @@ const mappingAttributes = (json: any) => {
 
 export async function createNDACollection(json: any) {
   try {
-    // Definisci i metadati dell'NFT
-    const { uri, metadata } = await metaplex.nfts().uploadMetadata({
+    const metadata = {
       name: 'Hiropitch NDA - ' + json.ideaId,
       symbol: 'HIRONDA',
       description:
         'This is the NDA signed on Hiropitch for the Idea with the id ' +
         json.ideaId,
       attributes: mappingAttributes(json),
-    });
+    };
 
-    console.log('metadataUri', uri, metadata);
+    const uri = await umi.uploader.uploadJson(metadata);
 
-    // Creazione della collezione NFT
-    const { nft, response } = await metaplex.nfts().create({
-      uri: uri,
-      name: 'Hiropitch NDA',
-      maxSupply: 1,
-      symbol: 'HIRONDA',
-      sellerFeeBasisPoints: 0, // 0% di fee (5% = 500)
-      creators: [{ address: payer.publicKey, share: 100 }],
-    });
+    const mint = generateSigner(umi);
+    const { signature, result } = await createNft(umi, {
+      mint,
+      name: 'HPNDA ' + json.ideaId, //max 32 chars
+      uri,
+      sellerFeeBasisPoints: percentAmount(0),
+      isCollection: true,
+    }).sendAndConfirm(umi);
 
-    const collectionAddress = nft.address.toString();
-    const hash = response.signature;
+    const collectionAddress = mint.publicKey.toString();
+    const hash = base58.deserialize(signature)[0];
 
     console.log(
       `https://explorer.solana.com/address/${collectionAddress}?cluster=devnet`
