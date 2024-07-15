@@ -8,7 +8,7 @@ import { createNFTCollection } from '@/lib/solana/createNFTCollection';
 import { createSmartContract } from '@/lib/actions/smartcontract.actions';
 import { createTransaction } from '@/lib/actions/transaction.actions';
 
-export const maxDuration = 20;
+export const maxDuration = 40;
 
 export async function POST(req: NextRequest) {
   try {
