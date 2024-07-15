@@ -53,13 +53,14 @@ Hiropitch is a decentralized platform for managing and tokenizing intellectual p
 - Profile Update: After the first login, users can update their profile with personal and business information.
 - IP Upload: Users can upload their IP, specifying the category, contract type, adding external links (e.g., YouTube videos, illustrations, texts), selecting other registered authors, adding a cover image, and a zip file with the project files.
 - NFT Creation: Specify the number of NFTs to create and the cost of each. Upon saving, the data is stored in the database, an NFT collection is created on the Solana blockchain, and transaction information is saved.
-- NFT Purchase: Interested users can purchase one or more NFTs from different ideas.
+- NFT Purchase: Interested users can purchase one or more NFTs from different ideas with the Mint function.
 - NDA Acceptance: To view the details of an idea, users must accept an NDA. A collection with a single NFT is created on Solana, storing the collection information, user information, and timestamp as proof of NDA acceptance.
 - Dashboard Interactions: Users can like public comments, like posts, and comment on idea details.
 - Transaction History: Users have a dedicated section with a list of their transactions (NFT purchase, collection creation, NDA signing).
 - Marketplace: View trending or searchable collections, with redirection to idea details.
 - FAQ Page: Main questions and answers to help users.
 - Community: Users can join communities dedicated to the ideas they follow, facilitating contact with creators and authors and allowing interested parties to actively participate in the community.
+- Mint NFT: A user can mint an NFT of the idea they are interested in.
 
 ## Running the Project Locally
 
@@ -90,7 +91,7 @@ npm run dev
 
 ## Next steps...
 
-- Minting NFTs: Users will have the ability to mint NFTs from the collection to support a project.
+- Mint Multiple NFTs: Users will be able to mint more than one NFT at a time from a collection, optimizing the process with a single transaction to minimize gas fees.
 - Community Interaction: Users will be able to interact with other supporters of a project by creating and joining a community.
 
 ### License
