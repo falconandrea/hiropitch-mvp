@@ -5,6 +5,8 @@ import { createNDACollection } from '@/lib/solana/createNDACollection';
 import { getAuth } from '@clerk/nextjs/server';
 import { NextRequest } from 'next/server';
 
+export const maxDuration = 20;
+
 export async function POST(req: NextRequest) {
   try {
     const { userId } = getAuth(req);
