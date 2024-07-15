@@ -283,7 +283,7 @@ export default function IdeaDetailPage() {
         setLoading(false);
 
         // Reload page
-        // window.location.reload();
+        window.location.reload();
       }
     }
   };
