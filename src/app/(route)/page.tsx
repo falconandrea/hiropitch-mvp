@@ -62,8 +62,7 @@ export default function Home() {
           height={400}
         />
         <p className='text-white'>
-          hiropitch is a decentralized autonomous organization (DAO) that will
-          help you find the audience and the right producer for your project.
+          hiropitch is a decentralized platform that will help you find the audience and the right team for your project.
         </p>
       </div>
 
